@@ -107,6 +107,13 @@ void jarr_add_string(struct jarr *self, const char *value) {
 }
 
 
+void jarr_add_jarr(struct jarr *self, struct jarr *value) {
+    struct jval *new_val = jarr_new_val(self);
+    new_val->type = JTYPE_ARRAY;
+    new_val->value.as_jarr = value;
+}
+
+
 struct jobj *jobj_new(void) {
     static const size_t INITIAL_CAPACITY = 1;
     struct jobj *new = malloc(sizeof *new);

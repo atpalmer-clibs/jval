@@ -65,5 +65,6 @@ void jarr_to_console(struct jarr *self);
 void jarr_add_long(struct jarr *self, long value);
 void jarr_add_double(struct jarr *self, double value);
 void jarr_add_string(struct jarr *self, const char *value);
+void jarr_add_jarr(struct jarr *self, struct jarr *value);
 
 #endif

@@ -9,11 +9,17 @@ int main(void) {
     jobj_add_string(obj, "name", "Andy");
     jobj_add_long(obj, "int-value", 6);
 
+    struct jarr *nested_arr = jarr_new();
+    jarr_add_string(nested_arr, "1");
+    jarr_add_string(nested_arr, "0");
+    jarr_add_string(nested_arr, "4");
+
     struct jarr *arr = jarr_new();
     jarr_add_long(arr, 100);
     jarr_add_double(arr, 101);
     jarr_add_string(arr, "0102");
     jarr_add_double(arr, 103);
+    jarr_add_jarr(arr, nested_arr);
 
     jobj_add_jarr(obj, "myArray", arr);
 
