@@ -16,11 +16,13 @@ static void jprop_destroy(const struct jprop *self) {
 }
 
 
-void jobj_to_console(struct jobj *self) {
-    for(int i = 0; i < self->count; ++i) {
-        struct jprop *prop = &self->props[i];
-        printf("%s: %f\n", prop->name, prop->jval.value.as_double);
-    }
+struct jobj *jobj_new(void) {
+    static const size_t INITIAL_CAPACITY = 1;
+    struct jobj *new = malloc(sizeof *new);
+    new->count = 0;
+    new->capacity = INITIAL_CAPACITY;
+    new->props = malloc(INITIAL_CAPACITY * sizeof *new->props);
+    return new;
 }
 
 
@@ -33,13 +35,11 @@ void jobj_destroy(const struct jobj *self) {
 }
 
 
-struct jobj *jobj_new(void) {
-    static const size_t INITIAL_CAPACITY = 1;
-    struct jobj *new = malloc(sizeof *new);
-    new->count = 0;
-    new->capacity = INITIAL_CAPACITY;
-    new->props = malloc(INITIAL_CAPACITY * sizeof *new->props);
-    return new;
+void jobj_to_console(struct jobj *self) {
+    for(int i = 0; i < self->count; ++i) {
+        struct jprop *prop = &self->props[i];
+        printf("%s: %f\n", prop->name, prop->jval.value.as_double);
+    }
 }
 
 

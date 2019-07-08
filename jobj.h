@@ -39,9 +39,9 @@ struct jprop {
 };
 
 
-void jobj_to_console(struct jobj *self);
-void jobj_destroy(const struct jobj *self);
 struct jobj *jobj_new(void);
+void jobj_destroy(const struct jobj *self);
+void jobj_to_console(struct jobj *self);
 void jobj_add_double(struct jobj *self, const char *name, double value);
 
 #endif
