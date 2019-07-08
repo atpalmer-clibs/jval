@@ -18,6 +18,19 @@ static void jprop_destroy(const struct jprop *self) {
 }
 
 
+static struct jprop *jobj_new_prop(struct jobj *self) {
+    if(self->count == self->capacity) {
+        size_t new_cap = self->capacity * 2;
+        self->props = realloc(self->props, new_cap * sizeof *self->props);
+        self->capacity = new_cap;
+    }
+
+    struct jprop *result = &self->props[self->count];
+    ++self->count;
+    return result;
+}
+
+
 struct jobj *jobj_new(void) {
     static const size_t INITIAL_CAPACITY = 1;
     struct jobj *new = malloc(sizeof *new);
@@ -49,34 +62,17 @@ void jobj_to_console(struct jobj *self) {
 
 
 void jobj_add_double(struct jobj *self, const char *name, double value) {
-    if(self->count == self->capacity) {
-        size_t new_cap = self->capacity * 2;
-        self->props = realloc(self->props, new_cap * sizeof *self->props);
-        self->capacity = new_cap;
-    }
-
-    struct jprop *new_prop = &self->props[self->count];
-
+    struct jprop *new_prop = jobj_new_prop(self);
     new_prop->name = strdup(name);
     new_prop->jval.type = JTYPE_NUMBER;
     new_prop->jval.value.as_double = value;
 
-    ++self->count;
 }
 
 
 void jobj_add_string(struct jobj *self, const char *name, const char *value) {
-    if(self->count == self->capacity) {
-        size_t new_cap = self->capacity * 2;
-        self->props = realloc(self->props, new_cap * sizeof *self->props);
-        self->capacity = new_cap;
-    }
-
-    struct jprop *new_prop = &self->props[self->count];
-
+    struct jprop *new_prop = jobj_new_prop(self);
     new_prop->name = strdup(name);
     new_prop->jval.type = JTYPE_STRING;
     new_prop->jval.value.as_string = strdup(value);
-
-    ++self->count;
 }
