@@ -14,5 +14,6 @@ int main(void) {
     jobj_destroy(obj);
 
     struct jarr *arr = jarr_new();
+    jarr_add_long(arr, 100);
     jarr_destroy(arr);
 }

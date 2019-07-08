@@ -32,6 +32,19 @@ static struct jval *jobj_new_prop(struct jobj *self, const char *name) {
 }
 
 
+static struct jval *jarr_new_val(struct jarr *self) {
+    if(self->count == self->capacity) {
+        size_t new_cap = self->capacity * 2;
+        self->vals = realloc(self->vals, new_cap * sizeof *self->vals);
+        self->capacity = new_cap;
+    }
+
+    struct jval *new_val = &self->vals[self->count];
+    ++self->count;
+    return new_val;
+}
+
+
 struct jarr *jarr_new(void) {
     static const size_t INITIAL_CAPACITY = 1;
     struct jarr *new = malloc(sizeof *new);
@@ -48,6 +61,13 @@ void jarr_destroy(const struct jarr *self) {
     }
     free((void *)self->vals);
     free((void *)self);
+}
+
+
+void jarr_add_long(struct jarr *self, long value) {
+    struct jval *new_val = jarr_new_val(self);
+    new_val->type = JTYPE_INTEGER;
+    new_val->value.as_long = value;
 }
 
 
