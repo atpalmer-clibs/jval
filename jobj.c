@@ -4,6 +4,23 @@
 #include "jobj.h"
 
 
+struct jcollection {
+    size_t count;
+    size_t capacity;
+    void *entries;
+};
+
+
+static struct jcollection *jcollection_new(size_t entry_size) {
+    static const size_t INITIAL_CAPACITY = 1;
+    struct jcollection *new = malloc(sizeof *new);
+    new->count = 0;
+    new->capacity = INITIAL_CAPACITY;
+    new->entries = malloc(INITIAL_CAPACITY * entry_size);
+    return new;
+}
+
+
 static void jval_cleanup(const struct jval *self) {
     if(self->type == JTYPE_OBJECT)
         jobj_destroy(self->value.as_ptr);
@@ -62,11 +79,7 @@ static void jval_to_console(struct jval *self) {
 
 
 struct jarr *jarr_new(void) {
-    static const size_t INITIAL_CAPACITY = 1;
-    struct jarr *new = malloc(sizeof *new);
-    new->count = 0;
-    new->capacity = INITIAL_CAPACITY;
-    new->vals = malloc(INITIAL_CAPACITY * sizeof *new->vals);
+    struct jarr *new = (struct jarr *)jcollection_new(sizeof *new->vals);
     return new;
 }
 
@@ -124,11 +137,7 @@ void jarr_add_jobj(struct jarr *self, struct jobj *value) {
 
 
 struct jobj *jobj_new(void) {
-    static const size_t INITIAL_CAPACITY = 1;
-    struct jobj *new = malloc(sizeof *new);
-    new->count = 0;
-    new->capacity = INITIAL_CAPACITY;
-    new->props = malloc(INITIAL_CAPACITY * sizeof *new->props);
+    struct jobj *new = (struct jobj *)jcollection_new(sizeof *new->props);
     return new;
 }
 
