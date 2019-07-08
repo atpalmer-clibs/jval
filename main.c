@@ -9,12 +9,12 @@ int main(void) {
     jobj_add_string(obj, "name", "Andy");
     jobj_add_long(obj, "int-value", 6);
 
+    struct jarr *arr = jarr_new();
+    jarr_add_long(arr, 100);
+
+    jobj_add_jarr(obj, "myArray", arr);
+
     jobj_to_console(obj);
 
     jobj_destroy(obj);
-
-    struct jarr *arr = jarr_new();
-    jarr_add_long(arr, 100);
-    jarr_to_console(arr);
-    jarr_destroy(arr);
 }
