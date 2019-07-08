@@ -1,5 +1,5 @@
 P=main
-OBJECTS=main.o jobj.o
+OBJECTS=main.o jobj.o jcollection.o
 CC=gcc
 
 

@@ -2,20 +2,11 @@
 #define JOBJ_H
 
 
-#include <stdlib.h>
-
-
-enum jtype {
-    JTYPE_INTEGER = 1 << 0,
-    JTYPE_NUMBER = 1 << 1,
-    JTYPE_STRING = 1 << 2,
-    JTYPE_ARRAY = 1 << 3,
-    JTYPE_OBJECT = 1 << 4,
-};
+#include "jtype.h"
+#include "jcollection.h"
 
 
 struct jprop;
-struct jval;
 
 
 struct jobj {
@@ -29,19 +20,6 @@ struct jarr {
     size_t count;
     size_t capacity;
     struct jval *vals;
-};
-
-
-struct jval {
-    enum jtype type;
-    union {
-        void *as_ptr;
-        struct jobj *as_jobj;
-        struct jarr *as_jarr;
-        const char *as_string;
-        long as_long;
-        double as_double;
-    } value;
 };
 
 
