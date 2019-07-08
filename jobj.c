@@ -37,7 +37,7 @@ void jobj_to_console(struct jobj *self) {
     printf("{\n");
     for(size_t i = 0; i < self->count; ++i) {
         struct jprop *prop = &self->props[i];
-        printf("%s: ", prop->name);
+        printf("\"%s\": ", prop->name);
         jval_to_console(&prop->jval);
         printf("\n");
     }
