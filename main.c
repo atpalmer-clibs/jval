@@ -11,9 +11,9 @@ int main(void) {
 
     struct jarr *arr = jarr_new();
     jarr_add_long(arr, 100);
-    jarr_add_long(arr, 101);
+    jarr_add_double(arr, 101);
     jarr_add_long(arr, 102);
-    jarr_add_long(arr, 103);
+    jarr_add_double(arr, 103);
 
     jobj_add_jarr(obj, "myArray", arr);
 

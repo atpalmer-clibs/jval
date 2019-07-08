@@ -93,6 +93,13 @@ void jarr_add_long(struct jarr *self, long value) {
 }
 
 
+void jarr_add_double(struct jarr *self, double value) {
+    struct jval *new_val = jarr_new_val(self);
+    new_val->type = JTYPE_NUMBER;
+    new_val->value.as_double = value;
+}
+
+
 struct jobj *jobj_new(void) {
     static const size_t INITIAL_CAPACITY = 1;
     struct jobj *new = malloc(sizeof *new);
