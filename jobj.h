@@ -59,6 +59,7 @@ void jobj_add_string(struct jobj *self, const char *name, const char *value);
 
 struct jarr *jarr_new(void);
 void jarr_destroy(const struct jarr *self);
+void jarr_to_console(struct jarr *self);
 void jarr_add_long(struct jarr *self, long value);
 
 #endif

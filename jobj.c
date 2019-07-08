@@ -74,6 +74,14 @@ void jarr_destroy(const struct jarr *self) {
 }
 
 
+void jarr_to_console(struct jarr *self) {
+    for(int i = 0; i < self->count; ++i) {
+        jval_to_console(&self->vals[i]);
+        printf("\n");
+    }
+}
+
+
 void jarr_add_long(struct jarr *self, long value) {
     struct jval *new_val = jarr_new_val(self);
     new_val->type = JTYPE_INTEGER;

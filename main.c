@@ -15,5 +15,6 @@ int main(void) {
 
     struct jarr *arr = jarr_new();
     jarr_add_long(arr, 100);
+    jarr_to_console(arr);
     jarr_destroy(arr);
 }
