@@ -43,7 +43,7 @@ void jval_to_console(struct jval *self) {
     if(self->type == JTYPE_NUMBER)
         printf("%f", self->value.as_double);
     if(self->type == JTYPE_STRING)
-        printf("%s", self->value.as_string);
+        printf("\"%s\"", self->value.as_string);
     if(self->type == JTYPE_ARRAY)
         jarr_to_console(self->value.as_jarr);
     if(self->type == JTYPE_OBJECT)
