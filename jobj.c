@@ -21,6 +21,19 @@ static struct jcollection *jcollection_new(size_t entry_size) {
 }
 
 
+static void *jcollection_new_entry(struct jcollection *self, size_t entry_size) {
+    if(self->count == self->capacity) {
+        size_t new_cap = self->capacity * 2;
+        self->entries = realloc(self->entries, new_cap * entry_size);
+        self->capacity = new_cap;
+    }
+
+    void *new_entry = &((char *)self->entries)[self->count * entry_size];
+    ++self->count;
+    return new_entry;
+}
+
+
 static void jval_cleanup(const struct jval *self) {
     if(self->type == JTYPE_OBJECT)
         jobj_destroy(self->value.as_ptr);
@@ -38,28 +51,14 @@ static void jprop_destroy(const struct jprop *self) {
 
 
 static struct jval *jobj_new_prop(struct jobj *self, const char *name) {
-    if(self->count == self->capacity) {
-        size_t new_cap = self->capacity * 2;
-        self->props = realloc(self->props, new_cap * sizeof *self->props);
-        self->capacity = new_cap;
-    }
-
-    struct jprop *new_prop = &self->props[self->count];
+    struct jprop *new_prop = jcollection_new_entry((struct jcollection *)self, sizeof *self->props);
     new_prop->name = strdup(name);
-    ++self->count;
     return &new_prop->jval;
 }
 
 
 static struct jval *jarr_new_val(struct jarr *self) {
-    if(self->count == self->capacity) {
-        size_t new_cap = self->capacity * 2;
-        self->vals = realloc(self->vals, new_cap * sizeof *self->vals);
-        self->capacity = new_cap;
-    }
-
-    struct jval *new_val = &self->vals[self->count];
-    ++self->count;
+    struct jval *new_val = jcollection_new_entry((struct jcollection *)self, sizeof *self->vals);
     return new_val;
 }
 
