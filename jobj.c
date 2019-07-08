@@ -45,6 +45,16 @@ static struct jval *jarr_new_val(struct jarr *self) {
 }
 
 
+static void jval_to_console(struct jval *self) {
+    if(self->type == JTYPE_INTEGER)
+        printf("%ld", self->value.as_long);
+    if(self->type == JTYPE_NUMBER)
+        printf("%f", self->value.as_double);
+    if(self->type == JTYPE_STRING)
+        printf("%s", self->value.as_string);
+}
+
+
 struct jarr *jarr_new(void) {
     static const size_t INITIAL_CAPACITY = 1;
     struct jarr *new = malloc(sizeof *new);
@@ -93,12 +103,9 @@ void jobj_destroy(const struct jobj *self) {
 void jobj_to_console(struct jobj *self) {
     for(int i = 0; i < self->count; ++i) {
         struct jprop *prop = &self->props[i];
-        if(prop->jval.type == JTYPE_INTEGER)
-            printf("%s: %ld\n", prop->name, prop->jval.value.as_long);
-        if(prop->jval.type == JTYPE_NUMBER)
-            printf("%s: %f\n", prop->name, prop->jval.value.as_double);
-        if(prop->jval.type == JTYPE_STRING)
-            printf("%s: %s\n", prop->name, prop->jval.value.as_string);
+        printf("%s: ", prop->name);
+        jval_to_console(&prop->jval);
+        printf("\n");
     }
 }
 
