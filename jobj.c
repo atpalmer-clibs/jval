@@ -116,6 +116,13 @@ void jarr_add_jarr(struct jarr *self, struct jarr *value) {
 }
 
 
+void jarr_add_jobj(struct jarr *self, struct jobj *value) {
+    struct jval *new_val = jarr_new_val(self);
+    new_val->type = JTYPE_OBJECT;
+    new_val->value.as_jobj = value;
+}
+
+
 struct jobj *jobj_new(void) {
     static const size_t INITIAL_CAPACITY = 1;
     struct jobj *new = malloc(sizeof *new);

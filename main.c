@@ -18,12 +18,16 @@ int main(void) {
     jarr_add_string(nested_arr, "0");
     jarr_add_string(nested_arr, "4");
 
+    struct jobj *arr_obj = jobj_new();
+    jobj_add_double(arr_obj, "value", 105);
+
     struct jarr *arr = jarr_new();
     jarr_add_long(arr, 100);
     jarr_add_double(arr, 101);
     jarr_add_string(arr, "0102");
     jarr_add_double(arr, 103);
     jarr_add_jarr(arr, nested_arr);
+    jarr_add_jobj(arr, arr_obj);
 
     jobj_add_jarr(obj, "myArray", arr);
     jobj_add_jobj(obj, "location", nested_obj);
