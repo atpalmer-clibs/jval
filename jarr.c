@@ -27,12 +27,18 @@ void jarr_destroy(const struct jarr *self) {
 
 
 void jarr_to_console(struct jarr *self) {
-    printf("[\n");
-    for(size_t i = 0; i < self->count; ++i) {
-        jval_to_console(&self->vals[i]);
-        printf("\n");
+    printf("[");
+    if(self->count) {
+        size_t curr = 0;
+        for(;;) {
+            jval_to_console(&self->vals[curr]);
+            ++curr;
+            if(curr == self->count)
+                break;
+            printf(",");
+        }
     }
-    printf("]\n");
+    printf("]");
 }
 
 
