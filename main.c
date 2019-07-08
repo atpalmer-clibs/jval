@@ -2,6 +2,10 @@
 
 
 int main(void) {
+    struct jobj *nested_obj = jobj_new();
+    jobj_add_string(nested_obj, "city", "Chicago");
+    jobj_add_string(nested_obj, "state", "Illinois");
+
     struct jobj *obj = jobj_new();
 
     jobj_add_double(obj, "value", 4);
@@ -22,6 +26,7 @@ int main(void) {
     jarr_add_jarr(arr, nested_arr);
 
     jobj_add_jarr(obj, "myArray", arr);
+    jobj_add_jobj(obj, "location", nested_obj);
 
     jobj_to_console(obj);
 

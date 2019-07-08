@@ -56,6 +56,8 @@ static void jval_to_console(struct jval *self) {
         printf("%s", self->value.as_string);
     if(self->type == JTYPE_ARRAY)
         jarr_to_console(self->value.as_jarr);
+    if(self->type == JTYPE_OBJECT)
+        jobj_to_console(self->value.as_jobj);
 }
 
 
@@ -168,4 +170,11 @@ void jobj_add_jarr(struct jobj *self, const char *name, struct jarr *value) {
     struct jval *new_val = jobj_new_prop(self, name);
     new_val->type = JTYPE_ARRAY;
     new_val->value.as_jarr = value;
+}
+
+
+void jobj_add_jobj(struct jobj *self, const char *name, struct jobj *value) {
+    struct jval *new_val = jobj_new_prop(self, name);
+    new_val->type = JTYPE_OBJECT;
+    new_val->value.as_jobj = value;
 }
