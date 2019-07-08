@@ -25,7 +25,7 @@ struct jobj *jobj_new(void) {
 
 
 void jobj_destroy(const struct jobj *self) {
-    for(int i = 0; i < self->count; ++i) {
+    for(size_t i = 0; i < self->count; ++i) {
         jprop_destroy(&self->props[i]);
     }
     free((void *)self->props);
@@ -34,7 +34,7 @@ void jobj_destroy(const struct jobj *self) {
 
 
 void jobj_to_console(struct jobj *self) {
-    for(int i = 0; i < self->count; ++i) {
+    for(size_t i = 0; i < self->count; ++i) {
         struct jprop *prop = &self->props[i];
         printf("%s: ", prop->name);
         jval_to_console(&prop->jval);

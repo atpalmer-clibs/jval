@@ -18,7 +18,7 @@ struct jarr *jarr_new(void) {
 
 
 void jarr_destroy(const struct jarr *self) {
-    for(int i = 0; i < self->count; ++i) {
+    for(size_t i = 0; i < self->count; ++i) {
         jval_cleanup(&self->vals[i]);
     }
     free((void *)self->vals);
@@ -27,7 +27,7 @@ void jarr_destroy(const struct jarr *self) {
 
 
 void jarr_to_console(struct jarr *self) {
-    for(int i = 0; i < self->count; ++i) {
+    for(size_t i = 0; i < self->count; ++i) {
         jval_to_console(&self->vals[i]);
         printf("\n");
     }
