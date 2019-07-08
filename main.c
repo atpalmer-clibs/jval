@@ -12,4 +12,7 @@ int main(void) {
     jobj_to_console(obj);
 
     jobj_destroy(obj);
+
+    struct jarr *arr = jarr_new();
+    jarr_destroy(arr);
 }

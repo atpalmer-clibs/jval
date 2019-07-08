@@ -32,6 +32,25 @@ static struct jval *jobj_new_prop(struct jobj *self, const char *name) {
 }
 
 
+struct jarr *jarr_new(void) {
+    static const size_t INITIAL_CAPACITY = 1;
+    struct jarr *new = malloc(sizeof *new);
+    new->count = 0;
+    new->capacity = INITIAL_CAPACITY;
+    new->vals = malloc(INITIAL_CAPACITY * sizeof *new->vals);
+    return new;
+}
+
+
+void jarr_destroy(const struct jarr *self) {
+    for(int i = 0; i < self->count; ++i) {
+        jval_cleanup(&self->vals[i]);
+    }
+    free((void *)self->vals);
+    free((void *)self);
+}
+
+
 struct jobj *jobj_new(void) {
     static const size_t INITIAL_CAPACITY = 1;
     struct jobj *new = malloc(sizeof *new);
