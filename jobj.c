@@ -18,16 +18,17 @@ static void jprop_destroy(const struct jprop *self) {
 }
 
 
-static struct jprop *jobj_new_prop(struct jobj *self) {
+static struct jval *jobj_new_prop(struct jobj *self, const char *name) {
     if(self->count == self->capacity) {
         size_t new_cap = self->capacity * 2;
         self->props = realloc(self->props, new_cap * sizeof *self->props);
         self->capacity = new_cap;
     }
 
-    struct jprop *result = &self->props[self->count];
+    struct jprop *new_prop = &self->props[self->count];
+    new_prop->name = strdup(name);
     ++self->count;
-    return result;
+    return &new_prop->jval;
 }
 
 
@@ -64,25 +65,21 @@ void jobj_to_console(struct jobj *self) {
 
 
 void jobj_add_long(struct jobj *self, const char *name, long value) {
-    struct jprop *new_prop = jobj_new_prop(self);
-    new_prop->name = strdup(name);
-    new_prop->jval.type = JTYPE_INTEGER;
-    new_prop->jval.value.as_long = value;
+    struct jval *new_val = jobj_new_prop(self, name);
+    new_val->type = JTYPE_INTEGER;
+    new_val->value.as_long = value;
 }
 
 
 void jobj_add_double(struct jobj *self, const char *name, double value) {
-    struct jprop *new_prop = jobj_new_prop(self);
-    new_prop->name = strdup(name);
-    new_prop->jval.type = JTYPE_NUMBER;
-    new_prop->jval.value.as_double = value;
-
+    struct jval *new_val = jobj_new_prop(self, name);
+    new_val->type = JTYPE_NUMBER;
+    new_val->value.as_double = value;
 }
 
 
 void jobj_add_string(struct jobj *self, const char *name, const char *value) {
-    struct jprop *new_prop = jobj_new_prop(self);
-    new_prop->name = strdup(name);
-    new_prop->jval.type = JTYPE_STRING;
-    new_prop->jval.value.as_string = strdup(value);
+    struct jval *new_val = jobj_new_prop(self, name);
+    new_val->type = JTYPE_STRING;
+    new_val->value.as_string = strdup(value);
 }
