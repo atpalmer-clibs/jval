@@ -15,12 +15,20 @@ enum jtype {
 
 
 struct jprop;
+struct jval;
 
 
 struct jobj {
     size_t count;
     size_t capacity;
     struct jprop *props;
+};
+
+
+struct jarr {
+    size_t count;
+    size_t capacity;
+    struct jval *vals;
 };
 
 
