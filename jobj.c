@@ -53,11 +53,21 @@ void jobj_destroy(const struct jobj *self) {
 void jobj_to_console(struct jobj *self) {
     for(int i = 0; i < self->count; ++i) {
         struct jprop *prop = &self->props[i];
+        if(prop->jval.type == JTYPE_INTEGER)
+            printf("%s: %ld\n", prop->name, prop->jval.value.as_long);
         if(prop->jval.type == JTYPE_NUMBER)
             printf("%s: %f\n", prop->name, prop->jval.value.as_double);
         if(prop->jval.type == JTYPE_STRING)
             printf("%s: %s\n", prop->name, prop->jval.value.as_string);
     }
+}
+
+
+void jobj_add_long(struct jobj *self, const char *name, long value) {
+    struct jprop *new_prop = jobj_new_prop(self);
+    new_prop->name = strdup(name);
+    new_prop->jval.type = JTYPE_INTEGER;
+    new_prop->jval.value.as_long = value;
 }
 
 

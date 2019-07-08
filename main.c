@@ -7,6 +7,7 @@ int main(void) {
     jobj_add_double(obj, "value", 4);
     jobj_add_double(obj, "value2", 5);
     jobj_add_string(obj, "name", "Andy");
+    jobj_add_long(obj, "int-value", 6);
 
     jobj_to_console(obj);
 

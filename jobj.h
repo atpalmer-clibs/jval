@@ -6,6 +6,7 @@
 
 
 enum jtype {
+    JTYPE_INTEGER = 1 << 0,
     JTYPE_NUMBER = 1 << 1,
     JTYPE_STRING = 1 << 2,
     JTYPE_ARRAY = 1 << 3,
@@ -29,6 +30,7 @@ struct jval {
         void *as_ptr;
         struct jobj *as_jobj;
         const char *as_string;
+        long as_long;
         double as_double;
     } value;
 };
@@ -43,6 +45,7 @@ struct jprop {
 struct jobj *jobj_new(void);
 void jobj_destroy(const struct jobj *self);
 void jobj_to_console(struct jobj *self);
+void jobj_add_long(struct jobj *self, const char *name, long value);
 void jobj_add_double(struct jobj *self, const char *name, double value);
 void jobj_add_string(struct jobj *self, const char *name, const char *value);
 
