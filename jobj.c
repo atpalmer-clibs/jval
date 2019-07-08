@@ -10,7 +10,7 @@ static void jval_cleanup(const struct jval *self) {
 }
 
 
-void jprop_destroy(const struct jprop *self) {
+static void jprop_destroy(const struct jprop *self) {
     free((void *)self->name);
     jval_cleanup(&self->jval);
 }

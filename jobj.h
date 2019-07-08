@@ -39,7 +39,6 @@ struct jprop {
 };
 
 
-void jprop_destroy(const struct jprop *self);
 void jobj_to_console(struct jobj *self);
 void jobj_destroy(const struct jobj *self);
 struct jobj *jobj_new(void);
