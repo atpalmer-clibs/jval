@@ -7,6 +7,8 @@
 static void jval_cleanup(const struct jval *self) {
     if(self->type == JTYPE_OBJECT)
         jobj_destroy(self->value.as_ptr);
+    if(self->type == JTYPE_STRING)
+        free(self->value.as_ptr);
 }
 
 
@@ -38,7 +40,10 @@ void jobj_destroy(const struct jobj *self) {
 void jobj_to_console(struct jobj *self) {
     for(int i = 0; i < self->count; ++i) {
         struct jprop *prop = &self->props[i];
-        printf("%s: %f\n", prop->name, prop->jval.value.as_double);
+        if(prop->jval.type == JTYPE_NUMBER)
+            printf("%s: %f\n", prop->name, prop->jval.value.as_double);
+        if(prop->jval.type == JTYPE_STRING)
+            printf("%s: %s\n", prop->name, prop->jval.value.as_string);
     }
 }
 
@@ -55,6 +60,23 @@ void jobj_add_double(struct jobj *self, const char *name, double value) {
     new_prop->name = strdup(name);
     new_prop->jval.type = JTYPE_NUMBER;
     new_prop->jval.value.as_double = value;
+
+    ++self->count;
+}
+
+
+void jobj_add_string(struct jobj *self, const char *name, const char *value) {
+    if(self->count == self->capacity) {
+        size_t new_cap = self->capacity * 2;
+        self->props = realloc(self->props, new_cap * sizeof *self->props);
+        self->capacity = new_cap;
+    }
+
+    struct jprop *new_prop = &self->props[self->count];
+
+    new_prop->name = strdup(name);
+    new_prop->jval.type = JTYPE_STRING;
+    new_prop->jval.value.as_string = strdup(value);
 
     ++self->count;
 }

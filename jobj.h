@@ -28,6 +28,7 @@ struct jval {
     union {
         void *as_ptr;
         struct jobj *as_jobj;
+        const char *as_string;
         double as_double;
     } value;
 };
@@ -43,5 +44,6 @@ struct jobj *jobj_new(void);
 void jobj_destroy(const struct jobj *self);
 void jobj_to_console(struct jobj *self);
 void jobj_add_double(struct jobj *self, const char *name, double value);
+void jobj_add_string(struct jobj *self, const char *name, const char *value);
 
 #endif
