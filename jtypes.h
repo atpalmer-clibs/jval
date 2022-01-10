@@ -39,7 +39,6 @@ struct jcollection {
 struct jcollection *jcollection_new(size_t entry_size);
 void *jcollection_new_entry(struct jcollection *self, size_t entry_size);
 void jval_cleanup(const struct jval *self);
-void jval_to_console(struct jval *self);
 
 
 /*** jobj ***/
@@ -59,7 +58,6 @@ struct jprop {
 
 struct jobj *jobj_new(void);
 void jobj_destroy(const struct jobj *self);
-void jobj_to_console(struct jobj *self);
 void jobj_add_long(struct jobj *self, const char *name, long value);
 void jobj_add_double(struct jobj *self, const char *name, double value);
 void jobj_add_string(struct jobj *self, const char *name, const char *value);
@@ -77,7 +75,6 @@ struct jarr {
 
 struct jarr *jarr_new(void);
 void jarr_destroy(const struct jarr *self);
-void jarr_to_console(struct jarr *self);
 void jarr_add_long(struct jarr *self, long value);
 void jarr_add_double(struct jarr *self, double value);
 void jarr_add_string(struct jarr *self, const char *value);

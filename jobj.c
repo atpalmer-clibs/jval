@@ -29,24 +29,6 @@ void jobj_destroy(const struct jobj *self) {
 }
 
 
-void jobj_to_console(struct jobj *self) {
-    printf("{");
-    if(self->count) {
-        size_t curr = 0;
-        for(;;) {
-            struct jprop *prop = &self->props[curr];
-            printf("\"%s\":", prop->name);
-            jval_to_console(&prop->jval);
-            ++curr;
-            if(curr == self->count)
-                break;
-            printf(",");
-        }
-    }
-    printf("}");
-}
-
-
 void jobj_add_long(struct jobj *self, const char *name, long value) {
     struct jval *new_val = jobj_new_prop(self, name);
     new_val->type = JTYPE_INTEGER;

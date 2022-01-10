@@ -32,17 +32,3 @@ void jval_cleanup(const struct jval *self) {
     if(self->type == JTYPE_STRING)
         free(self->value.as_ptr);
 }
-
-
-void jval_to_console(struct jval *self) {
-    if(self->type == JTYPE_INTEGER)
-        printf("%ld", self->value.as_long);
-    if(self->type == JTYPE_NUMBER)
-        printf("%f", self->value.as_double);
-    if(self->type == JTYPE_STRING)
-        printf("\"%s\"", self->value.as_string);
-    if(self->type == JTYPE_ARRAY)
-        jarr_to_console(self->value.as_jarr);
-    if(self->type == JTYPE_OBJECT)
-        jobj_to_console(self->value.as_jobj);
-}

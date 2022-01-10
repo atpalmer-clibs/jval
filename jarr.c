@@ -22,22 +22,6 @@ void jarr_destroy(const struct jarr *self) {
 }
 
 
-void jarr_to_console(struct jarr *self) {
-    printf("[");
-    if(self->count) {
-        size_t curr = 0;
-        for(;;) {
-            jval_to_console(&self->vals[curr]);
-            ++curr;
-            if(curr == self->count)
-                break;
-            printf(",");
-        }
-    }
-    printf("]");
-}
-
-
 void jarr_add_long(struct jarr *self, long value) {
     struct jval *new_val = jarr_new_val(self);
     new_val->type = JTYPE_INTEGER;
