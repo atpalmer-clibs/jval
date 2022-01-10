@@ -22,7 +22,7 @@ struct jobj *jobj_new(void)
 
 void jobj_destroy(const struct jobj *self)
 {
-    for(size_t i = 0; i < self->count; ++i) {
+    for (size_t i = 0; i < self->count; ++i) {
         jobj_entry_destroy(&self->entries[i]);
     }
     free((void *)self->entries);

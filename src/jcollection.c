@@ -13,7 +13,7 @@ struct jcollection *jcollection_new(size_t entry_size)
 
 void *jcollection_new_entry(struct jcollection *self, size_t entry_size)
 {
-    if(self->count == self->capacity) {
+    if (self->count == self->capacity) {
         size_t new_cap = self->capacity * 2;
         self->entries = realloc(self->entries, new_cap * entry_size);
         self->capacity = new_cap;
@@ -26,10 +26,10 @@ void *jcollection_new_entry(struct jcollection *self, size_t entry_size)
 
 void jval_cleanup(const struct jval *self)
 {
-    if(self->type == JTYPE_OBJECT)
+    if (self->type == JTYPE_OBJECT)
         jobj_destroy(self->value.as_ptr);
-    if(self->type == JTYPE_ARRAY)
+    if (self->type == JTYPE_ARRAY)
         jarr_destroy(self->value.as_ptr);
-    if(self->type == JTYPE_STRING)
+    if (self->type == JTYPE_STRING)
         free(self->value.as_ptr);
 }
