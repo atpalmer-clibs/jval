@@ -22,11 +22,17 @@ This is a C library for representing JSON data structures.
         ],
         {
           "value": 105
-        }
+        },
+        [
+          true,
+          false
+        ]
       ],
       "location": {
         "city": "Chicago",
         "state": "Illinois"
-      }
+      },
+      "true": true,
+      "false": false
     }
 ```
