@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "jcollection.h"
-#include "jobj.h"
+#include "jtypes.h"
 
 
 struct jcollection *jcollection_new(size_t entry_size) {

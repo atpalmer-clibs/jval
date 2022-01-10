@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "jarr.h"
-#include "jcollection.h"
+#include "jtypes.h"
 
 
 static struct jval *jarr_new_val(struct jarr *self) {

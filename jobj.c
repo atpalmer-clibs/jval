@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "jobj.h"
-#include "jcollection.h"
+#include "jtypes.h"
 
 
 static void jprop_destroy(const struct jprop *self) {
