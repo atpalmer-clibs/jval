@@ -1,4 +1,4 @@
-#include "jtypes.h"
+#include "jtypes/jtypes.h"
 
 
 static struct jval *jarr_new_val(struct jarr *self) {

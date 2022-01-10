@@ -1,4 +1,4 @@
-#include "jtypes.h"
+#include "jtypes/jtypes.h"
 
 
 static void jprop_destroy(const struct jprop *self) {

@@ -1,4 +1,4 @@
-#include "jtypes.h"
+#include "jtypes/jtypes.h"
 
 
 struct jcollection *jcollection_new(size_t entry_size) {
