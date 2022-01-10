@@ -22,6 +22,10 @@ int main(void) {
     struct jobj *arr_obj = jobj_new();
     jobj_add_double(arr_obj, "value", 105);
 
+    struct jarr *bool_arr = jarr_new();
+    jarr_add_bool(bool_arr, 1);
+    jarr_add_bool(bool_arr, 0);
+
     struct jarr *arr = jarr_new();
     jarr_add_long(arr, 100);
     jarr_add_double(arr, 101);
@@ -29,9 +33,13 @@ int main(void) {
     jarr_add_double(arr, 103);
     jarr_add_jarr(arr, nested_arr);
     jarr_add_jobj(arr, arr_obj);
+    jarr_add_jarr(arr, bool_arr);
 
     jobj_add_jarr(obj, "myArray", arr);
     jobj_add_jobj(obj, "location", nested_obj);
+
+    jobj_add_bool(obj, "true", 1);
+    jobj_add_bool(obj, "false", 0);
 
     jobj_to_console(obj);
 

@@ -43,6 +43,13 @@ void jobj_add_double(struct jobj *self, const char *name, double value) {
 }
 
 
+void jobj_add_bool(struct jobj *self, const char *name, int value) {
+    struct jval *new_val = jobj_new_entry(self, name);
+    new_val->type = JTYPE_BOOL;
+    new_val->value.as_bool = value;
+}
+
+
 void jobj_add_string(struct jobj *self, const char *name, const char *value) {
     struct jval *new_val = jobj_new_entry(self, name);
     new_val->type = JTYPE_STRING;

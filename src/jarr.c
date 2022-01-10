@@ -36,6 +36,13 @@ void jarr_add_double(struct jarr *self, double value) {
 }
 
 
+void jarr_add_bool(struct jarr *self, int value) {
+    struct jval *new_val = jarr_new_val(self);
+    new_val->type = JTYPE_BOOL;
+    new_val->value.as_bool = value;
+}
+
+
 void jarr_add_string(struct jarr *self, const char *value) {
     struct jval *new_val = jarr_new_val(self);
     new_val->type = JTYPE_STRING;
