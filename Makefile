@@ -1,12 +1,13 @@
-P=main
-OBJECTS=main.o jobj.o jarr.o jcollection.o
+SOURCES=src/*.c
 CC=gcc
 CFLAGS=-Wall -Wextra -pedantic -I./include/
+ALL=main
 
+all: $(ALL)
 
-$P: $(OBJECTS)
-	$(CC) $(CFLAGS) -o $P $(OBJECTS)
+%: $(SOURCES) %.c
+	$(CC) $(CFLAGS) -o $@ $?
 
 .PHONY: clean
 clean:
-	rm $(OBJECTS) $P
+	rm $(ALL)
