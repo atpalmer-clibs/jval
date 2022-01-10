@@ -5,7 +5,8 @@
 
 static void jval_to_console(struct jval *self);
 
-static void jarr_to_console(struct jarr *self) {
+static void jarr_to_console(struct jarr *self)
+{
     printf("[");
     if(self->count) {
         size_t curr = 0;
@@ -20,7 +21,8 @@ static void jarr_to_console(struct jarr *self) {
     printf("]");
 }
 
-static void jobj_to_console(struct jobj *self) {
+static void jobj_to_console(struct jobj *self)
+{
     printf("{");
     if(self->count) {
         size_t curr = 0;
@@ -37,7 +39,8 @@ static void jobj_to_console(struct jobj *self) {
     printf("}");
 }
 
-static void jval_to_console(struct jval *self) {
+static void jval_to_console(struct jval *self)
+{
     if(self->type == JTYPE_INTEGER)
         printf("%ld", self->value.as_long);
     if(self->type == JTYPE_NUMBER)

@@ -2,7 +2,8 @@
 #include "jtypes/console.h"
 
 
-int main(void) {
+int main(void)
+{
     struct jobj *nested_obj = jobj_new();
     jobj_add_string(nested_obj, "city", "Chicago");
     jobj_add_string(nested_obj, "state", "Illinois");

@@ -1,7 +1,8 @@
 #include "jtypes/jtypes.h"
 
 
-struct jcollection *jcollection_new(size_t entry_size) {
+struct jcollection *jcollection_new(size_t entry_size)
+{
     static const size_t INITIAL_CAPACITY = 1;
     struct jcollection *new = malloc(sizeof *new);
     new->count = 0;
@@ -10,8 +11,8 @@ struct jcollection *jcollection_new(size_t entry_size) {
     return new;
 }
 
-
-void *jcollection_new_entry(struct jcollection *self, size_t entry_size) {
+void *jcollection_new_entry(struct jcollection *self, size_t entry_size)
+{
     if(self->count == self->capacity) {
         size_t new_cap = self->capacity * 2;
         self->entries = realloc(self->entries, new_cap * entry_size);
@@ -23,8 +24,8 @@ void *jcollection_new_entry(struct jcollection *self, size_t entry_size) {
     return new_entry;
 }
 
-
-void jval_cleanup(const struct jval *self) {
+void jval_cleanup(const struct jval *self)
+{
     if(self->type == JTYPE_OBJECT)
         jobj_destroy(self->value.as_ptr);
     if(self->type == JTYPE_ARRAY)
