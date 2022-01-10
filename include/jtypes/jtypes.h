@@ -5,7 +5,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 /*** jtype ***/
+/*
+ * Type specification for jval
+ */
 
 enum jtype {
     JTYPE_INTEGER = 1 << 0,
@@ -16,7 +20,10 @@ enum jtype {
 };
 
 
-/*** jcollection ***/
+/*** jval ***/
+/*
+ * Generic JSON value of any type
+ */
 
 struct jval {
     enum jtype type;
@@ -30,6 +37,14 @@ struct jval {
     } value;
 };
 
+void jval_cleanup(const struct jval *self);
+
+
+/*** jcollection ***/
+/*
+ * Generic collection representing jarr and jobj
+ */
+
 struct jcollection {
     size_t count;
     size_t capacity;
@@ -38,10 +53,14 @@ struct jcollection {
 
 struct jcollection *jcollection_new(size_t entry_size);
 void *jcollection_new_entry(struct jcollection *self, size_t entry_size);
-void jval_cleanup(const struct jval *self);
 
 
 /*** jobj ***/
+/*
+ * A jcollection of jprop entries
+ * A jprop is NOT a jval!
+ * Each jprop must have a string (const char *) key and jval value
+ */
 
 struct jprop;
 
@@ -66,6 +85,9 @@ void jobj_add_jobj(struct jobj *self, const char *name, struct jobj *value);
 
 
 /*** jarr ***/
+/*
+ * A jcollection of jvals
+ */
 
 struct jarr {
     size_t count;
