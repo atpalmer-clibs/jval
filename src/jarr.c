@@ -2,22 +2,22 @@
 
 
 static struct jval *jarr_new_val(struct jarr *self) {
-    struct jval *new_val = jcollection_new_entry((struct jcollection *)self, sizeof *self->vals);
+    struct jval *new_val = jcollection_new_entry((struct jcollection *)self, sizeof *self->entries);
     return new_val;
 }
 
 
 struct jarr *jarr_new(void) {
-    struct jarr *new = (struct jarr *)jcollection_new(sizeof *new->vals);
+    struct jarr *new = (struct jarr *)jcollection_new(sizeof *new->entries);
     return new;
 }
 
 
 void jarr_destroy(const struct jarr *self) {
     for(size_t i = 0; i < self->count; ++i) {
-        jval_cleanup(&self->vals[i]);
+        jval_cleanup(&self->entries[i]);
     }
-    free((void *)self->vals);
+    free((void *)self->entries);
     free((void *)self);
 }
 

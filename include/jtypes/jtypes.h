@@ -57,22 +57,20 @@ void *jcollection_new_entry(struct jcollection *self, size_t entry_size);
 
 /*** jobj ***/
 /*
- * A jcollection of jprop entries
- * A jprop is NOT a jval!
- * Each jprop must have a string (const char *) key and jval value
+ * A jcollection of entries of type jobj_entry
+ * A jobj_entry is NOT a jval!
+ * Each jobj_entry must have a string (const char *) name and jval value
  */
 
-struct jprop;
+struct jobj_entry {
+    const char *name;
+    struct jval value;
+};
 
 struct jobj {
     size_t count;
     size_t capacity;
-    struct jprop *props;
-};
-
-struct jprop {
-    const char *name;
-    struct jval jval;
+    struct jobj_entry *entries;
 };
 
 struct jobj *jobj_new(void);
@@ -92,7 +90,7 @@ void jobj_add_jobj(struct jobj *self, const char *name, struct jobj *value);
 struct jarr {
     size_t count;
     size_t capacity;
-    struct jval *vals;
+    struct jval *entries;
 };
 
 struct jarr *jarr_new(void);
