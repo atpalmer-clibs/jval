@@ -40,6 +40,17 @@ struct jval {
     } value;
 };
 
+struct jval *jval_from_long(long value);
+struct jval *jval_from_double(double value);
+struct jval *jval_from_bool(int value);
+struct jval *jval_from_string(const char *value);
+struct jval *jval_from_jarr(struct jarr *value);
+struct jval *jval_from_jobj(struct jobj *value);
+struct jval *jval_new_null(void);
+
+void jval_destroy(const struct jval *self);
+
+/* deprecated */
 void jval_cleanup(const struct jval *self);
 
 
@@ -78,6 +89,13 @@ struct jobj {
 
 struct jobj *jobj_new(void);
 void jobj_destroy(const struct jobj *self);
+void jobj_add_long(struct jobj *self, const char *name, long value);
+void jobj_add_double(struct jobj *self, const char *name, double value);
+void jobj_add_bool(struct jobj *self, const char *name, int value);
+void jobj_add_string(struct jobj *self, const char *name, const char *value);
+void jobj_add_jarr(struct jobj *self, const char *name, struct jarr *value);
+void jobj_add_jobj(struct jobj *self, const char *name, struct jobj *value);
+void jobj_add_null(struct jobj *self, const char *name);
 void jobj_add_long(struct jobj *self, const char *name, long value);
 void jobj_add_double(struct jobj *self, const char *name, double value);
 void jobj_add_bool(struct jobj *self, const char *name, int value);
