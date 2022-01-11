@@ -45,6 +45,10 @@ void jarr_add_bool(struct jarr *self, int value)
 
 void jarr_add_string(struct jarr *self, const char *value)
 {
+    if (!value) {
+        jarr_add_null(self);
+        return;
+    }
     struct jval *new_val = jarr_new_val(self);
     new_val->type = JTYPE_STRING;
     new_val->value.as_string = strdup(value);
@@ -52,6 +56,10 @@ void jarr_add_string(struct jarr *self, const char *value)
 
 void jarr_add_jarr(struct jarr *self, struct jarr *value)
 {
+    if (!value) {
+        jarr_add_null(self);
+        return;
+    }
     struct jval *new_val = jarr_new_val(self);
     new_val->type = JTYPE_ARRAY;
     new_val->value.as_jarr = value;
@@ -59,7 +67,18 @@ void jarr_add_jarr(struct jarr *self, struct jarr *value)
 
 void jarr_add_jobj(struct jarr *self, struct jobj *value)
 {
+    if (!value) {
+        jarr_add_null(self);
+        return;
+    }
     struct jval *new_val = jarr_new_val(self);
     new_val->type = JTYPE_OBJECT;
     new_val->value.as_jobj = value;
+}
+
+void jarr_add_null(struct jarr *self)
+{
+    struct jval *new_val = jarr_new_val(self);
+    new_val->type = JTYPE_NULL;
+    new_val->value.as_ptr = NULL;
 }

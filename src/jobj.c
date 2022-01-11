@@ -52,6 +52,10 @@ void jobj_add_bool(struct jobj *self, const char *name, int value)
 
 void jobj_add_string(struct jobj *self, const char *name, const char *value)
 {
+    if (!value) {
+        jobj_add_null(self, name);
+        return;
+    }
     struct jval *new_val = jobj_new_entry(self, name);
     new_val->type = JTYPE_STRING;
     new_val->value.as_string = strdup(value);
@@ -59,6 +63,10 @@ void jobj_add_string(struct jobj *self, const char *name, const char *value)
 
 void jobj_add_jarr(struct jobj *self, const char *name, struct jarr *value)
 {
+    if (!value) {
+        jobj_add_null(self, name);
+        return;
+    }
     struct jval *new_val = jobj_new_entry(self, name);
     new_val->type = JTYPE_ARRAY;
     new_val->value.as_jarr = value;
@@ -66,7 +74,18 @@ void jobj_add_jarr(struct jobj *self, const char *name, struct jarr *value)
 
 void jobj_add_jobj(struct jobj *self, const char *name, struct jobj *value)
 {
+    if (!value) {
+        jobj_add_null(self, name);
+        return;
+    }
     struct jval *new_val = jobj_new_entry(self, name);
     new_val->type = JTYPE_OBJECT;
     new_val->value.as_jobj = value;
+}
+
+void jobj_add_null(struct jobj *self, const char *name)
+{
+    struct jval *new_val = jobj_new_entry(self, name);
+    new_val->type = JTYPE_NULL;
+    new_val->value.as_ptr= NULL;
 }

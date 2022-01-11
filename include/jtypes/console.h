@@ -53,6 +53,8 @@ static void jval_to_console(struct jval *self)
         jarr_to_console(self->value.as_jarr);
     if (self->type == JTYPE_OBJECT)
         jobj_to_console(self->value.as_jobj);
+    if (self->type == JTYPE_NULL)
+        printf("null");
 }
 
 #endif

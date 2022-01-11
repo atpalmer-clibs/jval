@@ -18,6 +18,7 @@ enum jtype {
     JTYPE_ARRAY = 1 << 3,
     JTYPE_OBJECT = 1 << 4,
     JTYPE_BOOL = 1 << 5,
+    JTYPE_NULL = 1 << 6,
 };
 
 
@@ -83,6 +84,7 @@ void jobj_add_bool(struct jobj *self, const char *name, int value);
 void jobj_add_string(struct jobj *self, const char *name, const char *value);
 void jobj_add_jarr(struct jobj *self, const char *name, struct jarr *value);
 void jobj_add_jobj(struct jobj *self, const char *name, struct jobj *value);
+void jobj_add_null(struct jobj *self, const char *name);
 
 
 /*** jarr ***/
@@ -104,5 +106,6 @@ void jarr_add_bool(struct jarr *self, int value);
 void jarr_add_string(struct jarr *self, const char *value);
 void jarr_add_jarr(struct jarr *self, struct jarr *value);
 void jarr_add_jobj(struct jarr *self, struct jobj *value);
+void jarr_add_null(struct jarr *self);
 
 #endif

@@ -35,12 +35,17 @@ int main(void)
     jarr_add_jarr(arr, nested_arr);
     jarr_add_jobj(arr, arr_obj);
     jarr_add_jarr(arr, bool_arr);
+    jarr_add_null(arr);
+    jarr_add_jobj(arr, NULL);
 
     jobj_add_jarr(obj, "myArray", arr);
     jobj_add_jobj(obj, "location", nested_obj);
 
     jobj_add_bool(obj, "true", 1);
     jobj_add_bool(obj, "false", 0);
+
+    jobj_add_jobj(obj, "oneNull", NULL);
+    jobj_add_null(obj, "twoNull");
 
     jobj_to_console(obj);
 
