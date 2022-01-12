@@ -135,11 +135,19 @@ struct jval *jval_new_null(void)
 
 void jval_destroy(struct jval *self)
 {
-    if (self->type == JTYPE_OBJECT)
+    switch (self->type) {
+    case JTYPE_OBJECT:
         jval_object_container_destroy(self->value.as_container);
-    if (self->type == JTYPE_ARRAY)
+        break;
+    case JTYPE_ARRAY:
         jval_array_container_destroy(self->value.as_container);
-    if (self->type == JTYPE_STRING)
+        break;
+    case JTYPE_STRING:
         free((void *)self->value.as_string);
+        break;
+    default:
+        break;
+    };
+
     free(self);
 }
