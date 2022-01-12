@@ -41,11 +41,11 @@ int main(void)
     jval_set(obj, "myArray", arr);
     jval_set(obj, "location", nested_obj);
 
-    jval_set(obj, "true", jval_from_bool(1));
-    jval_set(obj, "false", jval_from_bool(0));
+    jval_set(obj, "true", &jval_true);
+    jval_set(obj, "false", &jval_false);
 
     jval_set(obj, "oneNull", NULL);
-    jval_set(obj, "twoNull", jval_new_null());
+    jval_set(obj, "twoNull", &jval_null);
 
     jval_to_console(obj);
 

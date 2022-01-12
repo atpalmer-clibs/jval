@@ -1,6 +1,20 @@
 #include "jtypes/jtypes.h"
 
 
+struct jval jval_true = {
+    .type = JVAL_TP_BOOL,
+    .value = {.as_bool = 1}
+};
+
+struct jval jval_false = {
+    .type = JVAL_TP_BOOL,
+    .value = {.as_bool = 0}
+};
+
+struct jval jval_null = {
+    .type = JVAL_TP_NULL
+};
+
 typedef void (*entry_destroy_func)(void *);
 
 static void _entry_destroy(struct jval_object_entry *entry)
@@ -84,16 +98,6 @@ struct jval *jval_from_double(double value)
     return new;
 }
 
-static struct jval jval_true = {
-    .type = JVAL_TP_BOOL,
-    .value = {.as_bool = 1}
-};
-
-static struct jval jval_false = {
-    .type = JVAL_TP_BOOL,
-    .value = {.as_bool = 0}
-};
-
 struct jval *jval_from_bool(int value)
 {
     return value ? &jval_true : &jval_false;
@@ -122,10 +126,6 @@ struct jval *jval_new_object(void)
     new->value.as_container = _container_alloc();
     return new;
 }
-
-static struct jval jval_null = {
-    .type = JVAL_TP_NULL
-};
 
 struct jval *jval_new_null(void)
 {

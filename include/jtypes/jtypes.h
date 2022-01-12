@@ -97,6 +97,11 @@ struct jval *jval_new_array(void);
 struct jval *jval_new_object(void);
 struct jval *jval_new_null(void);
 
+/* singletons */
+extern struct jval jval_true;
+extern struct jval jval_false;
+extern struct jval jval_null;
+
 /*
  * destroy any jval recursively
  */
