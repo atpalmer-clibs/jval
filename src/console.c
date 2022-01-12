@@ -38,18 +38,27 @@ static void _object_container_to_console(struct jval_container *self)
 
 void jval_to_console(struct jval *self)
 {
-    if (self->type == JTYPE_INTEGER)
+    switch (self->type) {
+    case JTYPE_INTEGER:
         printf("%ld", self->value.as_long);
-    if (self->type == JTYPE_NUMBER)
+        break;
+    case JTYPE_NUMBER:
         printf("%f", self->value.as_double);
-    if (self->type == JTYPE_BOOL)
+        break;
+    case JTYPE_BOOL:
         printf("%s", self->value.as_bool ? "true" : "false");
-    if (self->type == JTYPE_STRING)
+        break;
+    case JTYPE_STRING:
         printf("\"%s\"", self->value.as_string);
-    if (self->type == JTYPE_ARRAY)
+        break;
+    case JTYPE_ARRAY:
         _array_container_to_console(self->value.as_container);
-    if (self->type == JTYPE_OBJECT)
+        break;
+    case JTYPE_OBJECT:
         _object_container_to_console(self->value.as_container);
-    if (self->type == JTYPE_NULL)
+        break;
+    case JTYPE_NULL:
         printf("null");
+        break;
+    };
 }
