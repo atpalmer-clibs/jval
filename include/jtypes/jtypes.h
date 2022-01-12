@@ -38,18 +38,6 @@ struct jval {
     } value;
 };
 
-struct jval *jval_ensure_type(struct jval *self, enum jtype type);
-void jval_append(struct jval *self, struct jval *value);
-void jval_set(struct jval *self, const char *name, struct jval *value);
-struct jval *jval_from_long(long value);
-struct jval *jval_from_double(double value);
-struct jval *jval_from_bool(int value);
-struct jval *jval_from_string(const char *value);
-struct jval *jval_new_array(void);
-struct jval *jval_new_object(void);
-struct jval *jval_new_null(void);
-void jval_destroy(struct jval *self);
-
 
 /*** jval_container ***/
 /*
@@ -67,10 +55,20 @@ struct jval_container {
     void *entries[];
 };
 
-struct jval_container *jval_container_new(void);
-void jval_container_append(struct jval_container **self, void *entry);
 
-void jval_array_container_destroy(struct jval_container *self);
-void jval_object_container_destroy(struct jval_container *self);
+struct jval *jval_ensure_type(struct jval *self, enum jtype type);
+
+void jval_append(struct jval *self, struct jval *value);
+void jval_set(struct jval *self, const char *name, struct jval *value);
+
+struct jval *jval_from_long(long value);
+struct jval *jval_from_double(double value);
+struct jval *jval_from_bool(int value);
+struct jval *jval_from_string(const char *value);
+struct jval *jval_new_array(void);
+struct jval *jval_new_object(void);
+struct jval *jval_new_null(void);
+
+void jval_destroy(struct jval *self);
 
 #endif
