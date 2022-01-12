@@ -84,12 +84,19 @@ struct jval *jval_from_double(double value)
     return new;
 }
 
+static struct jval jval_true = {
+    .type = JVAL_TP_BOOL,
+    .value = {.as_bool = 1}
+};
+
+static struct jval jval_false = {
+    .type = JVAL_TP_BOOL,
+    .value = {.as_bool = 0}
+};
+
 struct jval *jval_from_bool(int value)
 {
-    struct jval *new = malloc(sizeof *new);
-    new->type = JVAL_TP_BOOL;
-    new->value.as_bool = value;
-    return new;
+    return value ? &jval_true : &jval_false;
 }
 
 struct jval *jval_from_string(const char *value)
@@ -141,7 +148,8 @@ void jval_destroy(struct jval *self)
         free(self);
         break;
     case JVAL_TP_NULL:
-        /* do not free singleton */
+    case JVAL_TP_BOOL:
+        /* do not free singletons */
         break;
     default:
         free(self);
