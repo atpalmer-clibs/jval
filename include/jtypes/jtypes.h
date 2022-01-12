@@ -7,13 +7,13 @@
 
 
 enum jval_type {
-    JTYPE_INTEGER,
-    JTYPE_NUMBER,
-    JTYPE_STRING,
-    JTYPE_ARRAY,
-    JTYPE_OBJECT,
-    JTYPE_BOOL,
-    JTYPE_NULL,
+    JVAL_TP_INTEGER,
+    JVAL_TP_NUMBER,
+    JVAL_TP_STRING,
+    JVAL_TP_ARRAY,
+    JVAL_TP_OBJECT,
+    JVAL_TP_BOOL,
+    JVAL_TP_NULL,
 };
 
 /*
@@ -21,13 +21,13 @@ enum jval_type {
  * types have a corresponding union member
  *
  * jval.type        jval.value
- * JTYPE_INTEGER    .as_long
- * JTYPE_NUMBER     .as_double
- * JTYPE_STRING     .as_string
- * JTYPE_ARRAY      .as_container
- * JTYPE_OBJECT     .as_container
- * JTYPE_BOOL       .as_bool
- * JTYPE_NULL       <n/a>
+ * JVAL_TP_INTEGER  .as_long
+ * JVAL_TP_NUMBER   .as_double
+ * JVAL_TP_STRING   .as_string
+ * JVAL_TP_ARRAY    .as_container
+ * JVAL_TP_OBJECT   .as_container
+ * JVAL_TP_BOOL     .as_bool
+ * JVAL_TP_NULL     <n/a>
  */
 
 struct jval {
@@ -81,13 +81,13 @@ void jval_set(struct jval *self, const char *name, struct jval *value);
 
 /*
  * create jvals of any type
- * - c long -> JTYPE_INTEGER
- * - c double -> JTYPE_NUMBER
- * - c bool -> JTYPE_BOOL
- * - c string -> JTYPE_STRING
- * - empty JTYPE_ARRAY (append with jval_append)
- * - empty JTYPE_OBJECT (set with jval_set)
- * - JTYPE_NULL
+ * - c long -> JVAL_TP_INTEGER
+ * - c double -> JVAL_TP_NUMBER
+ * - c bool -> JVAL_TP_BOOL
+ * - c string -> JVAL_TP_STRING
+ * - empty JVAL_TP_ARRAY (append with jval_append)
+ * - empty JVAL_TP_OBJECT (set with jval_set)
+ * - JVAL_TP_NULL
  */
 struct jval *jval_from_long(long value);
 struct jval *jval_from_double(double value);

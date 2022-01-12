@@ -53,13 +53,13 @@ static struct jval *jval_or_jnull(struct jval *self)
 
 void jval_append(struct jval *self, struct jval *value)
 {
-    jval_ensure_type(self, JTYPE_ARRAY);
+    jval_ensure_type(self, JVAL_TP_ARRAY);
     _container_append(&self->value.as_container, jval_or_jnull(value));
 }
 
 void jval_set(struct jval *self, const char *name, struct jval *value)
 {
-    jval_ensure_type(self, JTYPE_OBJECT);
+    jval_ensure_type(self, JVAL_TP_OBJECT);
 
     struct jval_object_entry *new = malloc(sizeof *new);
     new->name = strdup(name);
@@ -71,7 +71,7 @@ void jval_set(struct jval *self, const char *name, struct jval *value)
 struct jval *jval_from_long(long value)
 {
     struct jval *new = malloc(sizeof *new);
-    new->type = JTYPE_INTEGER;
+    new->type = JVAL_TP_INTEGER;
     new->value.as_long = value;
     return new;
 }
@@ -79,7 +79,7 @@ struct jval *jval_from_long(long value)
 struct jval *jval_from_double(double value)
 {
     struct jval *new = malloc(sizeof *new);
-    new->type = JTYPE_NUMBER;
+    new->type = JVAL_TP_NUMBER;
     new->value.as_double = value;
     return new;
 }
@@ -87,7 +87,7 @@ struct jval *jval_from_double(double value)
 struct jval *jval_from_bool(int value)
 {
     struct jval *new = malloc(sizeof *new);
-    new->type = JTYPE_BOOL;
+    new->type = JVAL_TP_BOOL;
     new->value.as_bool = value;
     return new;
 }
@@ -95,7 +95,7 @@ struct jval *jval_from_bool(int value)
 struct jval *jval_from_string(const char *value)
 {
     struct jval *new = malloc(sizeof *new);
-    new->type = JTYPE_STRING;
+    new->type = JVAL_TP_STRING;
     new->value.as_string = strdup(value);
     return new;
 }
@@ -103,7 +103,7 @@ struct jval *jval_from_string(const char *value)
 struct jval *jval_new_array(void)
 {
     struct jval *new = malloc(sizeof *new);
-    new->type = JTYPE_ARRAY;
+    new->type = JVAL_TP_ARRAY;
     new->value.as_container = _container_alloc();
     return new;
 }
@@ -111,7 +111,7 @@ struct jval *jval_new_array(void)
 struct jval *jval_new_object(void)
 {
     struct jval *new = malloc(sizeof *new);
-    new->type = JTYPE_OBJECT;
+    new->type = JVAL_TP_OBJECT;
     new->value.as_container = _container_alloc();
     return new;
 }
@@ -119,20 +119,20 @@ struct jval *jval_new_object(void)
 struct jval *jval_new_null(void)
 {
     struct jval *new = calloc(sizeof *new, 1);
-    new->type = JTYPE_NULL;
+    new->type = JVAL_TP_NULL;
     return new;
 }
 
 void jval_destroy(struct jval *self)
 {
     switch (self->type) {
-    case JTYPE_OBJECT:
+    case JVAL_TP_OBJECT:
         _container_free(self->value.as_container, (entry_destroy_func)_entry_destroy);
         break;
-    case JTYPE_ARRAY:
+    case JVAL_TP_ARRAY:
         _container_free(self->value.as_container, (entry_destroy_func)jval_destroy);
         break;
-    case JTYPE_STRING:
+    case JVAL_TP_STRING:
         free((void *)self->value.as_string);
         break;
     default:

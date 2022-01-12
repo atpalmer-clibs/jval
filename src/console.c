@@ -39,25 +39,25 @@ static void _object_container_to_console(struct jval_container *self)
 void jval_to_console(struct jval *self)
 {
     switch (self->type) {
-    case JTYPE_INTEGER:
+    case JVAL_TP_INTEGER:
         printf("%ld", self->value.as_long);
         break;
-    case JTYPE_NUMBER:
+    case JVAL_TP_NUMBER:
         printf("%f", self->value.as_double);
         break;
-    case JTYPE_BOOL:
+    case JVAL_TP_BOOL:
         printf("%s", self->value.as_bool ? "true" : "false");
         break;
-    case JTYPE_STRING:
+    case JVAL_TP_STRING:
         printf("\"%s\"", self->value.as_string);
         break;
-    case JTYPE_ARRAY:
+    case JVAL_TP_ARRAY:
         _array_container_to_console(self->value.as_container);
         break;
-    case JTYPE_OBJECT:
+    case JVAL_TP_OBJECT:
         _object_container_to_console(self->value.as_container);
         break;
-    case JTYPE_NULL:
+    case JVAL_TP_NULL:
         printf("null");
         break;
     };
