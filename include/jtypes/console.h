@@ -11,7 +11,7 @@ static void jarr_to_console(struct jarr *self)
     if (self->count) {
         size_t curr = 0;
         for (;;) {
-            jval_to_console(&self->entries[curr]);
+            jval_to_console(self->entries[curr]);
             ++curr;
             if (curr == self->count)
                 break;
@@ -27,9 +27,9 @@ static void jobj_to_console(struct jobj *self)
     if (self->count) {
         size_t curr = 0;
         for (;;) {
-            struct jobj_entry *entry = &self->entries[curr];
+            struct jobj_entry *entry = self->entries[curr];
             printf("\"%s\":", entry->name);
-            jval_to_console(&entry->value);
+            jval_to_console(entry->value);
             ++curr;
             if (curr == self->count)
                 break;

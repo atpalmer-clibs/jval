@@ -62,11 +62,11 @@ void jval_cleanup(const struct jval *self);
 struct jcollection {
     size_t count;
     size_t capacity;
-    void *entries;
+    void *entries[];
 };
 
-struct jcollection *jcollection_new(size_t entry_size);
-void *jcollection_new_entry(struct jcollection *self, size_t entry_size);
+struct jcollection *jcollection_new(void);
+void jcollection_add_entry(struct jcollection **self, void *entry);
 
 
 /*** jobj ***/
@@ -78,31 +78,32 @@ void *jcollection_new_entry(struct jcollection *self, size_t entry_size);
 
 struct jobj_entry {
     const char *name;
-    struct jval value;
+    struct jval *value;
 };
 
 struct jobj {
     size_t count;
     size_t capacity;
-    struct jobj_entry *entries;
+    struct jobj_entry *entries[];
 };
 
-struct jobj *jobj_new(void);
+#define jobj_new()  ((struct jobj *)jcollection_new())
+
 void jobj_destroy(const struct jobj *self);
-void jobj_add_long(struct jobj *self, const char *name, long value);
-void jobj_add_double(struct jobj *self, const char *name, double value);
-void jobj_add_bool(struct jobj *self, const char *name, int value);
-void jobj_add_string(struct jobj *self, const char *name, const char *value);
-void jobj_add_jarr(struct jobj *self, const char *name, struct jarr *value);
-void jobj_add_jobj(struct jobj *self, const char *name, struct jobj *value);
-void jobj_add_null(struct jobj *self, const char *name);
-void jobj_add_long(struct jobj *self, const char *name, long value);
-void jobj_add_double(struct jobj *self, const char *name, double value);
-void jobj_add_bool(struct jobj *self, const char *name, int value);
-void jobj_add_string(struct jobj *self, const char *name, const char *value);
-void jobj_add_jarr(struct jobj *self, const char *name, struct jarr *value);
-void jobj_add_jobj(struct jobj *self, const char *name, struct jobj *value);
-void jobj_add_null(struct jobj *self, const char *name);
+void jobj_add_long(struct jobj **self, const char *name, long value);
+void jobj_add_double(struct jobj **self, const char *name, double value);
+void jobj_add_bool(struct jobj **self, const char *name, int value);
+void jobj_add_string(struct jobj **self, const char *name, const char *value);
+void jobj_add_jarr(struct jobj **self, const char *name, struct jarr *value);
+void jobj_add_jobj(struct jobj **self, const char *name, struct jobj *value);
+void jobj_add_null(struct jobj **self, const char *name);
+void jobj_add_long(struct jobj **self, const char *name, long value);
+void jobj_add_double(struct jobj **self, const char *name, double value);
+void jobj_add_bool(struct jobj **self, const char *name, int value);
+void jobj_add_string(struct jobj **self, const char *name, const char *value);
+void jobj_add_jarr(struct jobj **self, const char *name, struct jarr *value);
+void jobj_add_jobj(struct jobj **self, const char *name, struct jobj *value);
+void jobj_add_null(struct jobj **self, const char *name);
 
 
 /*** jarr ***/
@@ -113,17 +114,18 @@ void jobj_add_null(struct jobj *self, const char *name);
 struct jarr {
     size_t count;
     size_t capacity;
-    struct jval *entries;
+    struct jval *entries[];
 };
 
-struct jarr *jarr_new(void);
+#define jarr_new()  ((struct jarr *)jcollection_new())
+
 void jarr_destroy(const struct jarr *self);
-void jarr_add_long(struct jarr *self, long value);
-void jarr_add_double(struct jarr *self, double value);
-void jarr_add_bool(struct jarr *self, int value);
-void jarr_add_string(struct jarr *self, const char *value);
-void jarr_add_jarr(struct jarr *self, struct jarr *value);
-void jarr_add_jobj(struct jarr *self, struct jobj *value);
-void jarr_add_null(struct jarr *self);
+void jarr_add_long(struct jarr **self, long value);
+void jarr_add_double(struct jarr **self, double value);
+void jarr_add_bool(struct jarr **self, int value);
+void jarr_add_string(struct jarr **self, const char *value);
+void jarr_add_jarr(struct jarr **self, struct jarr *value);
+void jarr_add_jobj(struct jarr **self, struct jobj *value);
+void jarr_add_null(struct jarr **self);
 
 #endif

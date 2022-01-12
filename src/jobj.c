@@ -4,88 +4,74 @@
 static void jobj_entry_destroy(const struct jobj_entry *self)
 {
     free((void *)self->name);
-    jval_cleanup(&self->value);
-}
-
-static struct jval *jobj_new_entry(struct jobj *self, const char *name)
-{
-    struct jobj_entry *new = jcollection_new_entry((struct jcollection *)self, sizeof *self->entries);
-    new->name = strdup(name);
-    return &new->value;
-}
-
-struct jobj *jobj_new(void)
-{
-    struct jobj *new = (struct jobj *)jcollection_new(sizeof *new->entries);
-    return new;
+    jval_destroy(self->value);
 }
 
 void jobj_destroy(const struct jobj *self)
 {
-    for (size_t i = 0; i < self->count; ++i) {
-        jobj_entry_destroy(&self->entries[i]);
-    }
-    free((void *)self->entries);
+    for (size_t i = 0; i < self->count; ++i)
+        jobj_entry_destroy(self->entries[i]);
     free((void *)self);
 }
 
-void jobj_add_long(struct jobj *self, const char *name, long value)
+static void jobj_add_jval(struct jobj **self, const char *name, struct jval *value)
 {
-    struct jval *new_val = jobj_new_entry(self, name);
-    new_val->type = JTYPE_INTEGER;
-    new_val->value.as_long = value;
+    struct jobj_entry *new = malloc(sizeof *new);
+    new->name = strdup(name);
+    new->value = value;
+    jcollection_add_entry((struct jcollection **)self, new);
 }
 
-void jobj_add_double(struct jobj *self, const char *name, double value)
+void jobj_add_long(struct jobj **self, const char *name, long value)
 {
-    struct jval *new_val = jobj_new_entry(self, name);
-    new_val->type = JTYPE_NUMBER;
-    new_val->value.as_double = value;
+    struct jval *new = jval_from_long(value);
+    jobj_add_jval(self, name, new);
 }
 
-void jobj_add_bool(struct jobj *self, const char *name, int value)
+void jobj_add_double(struct jobj **self, const char *name, double value)
 {
-    struct jval *new_val = jobj_new_entry(self, name);
-    new_val->type = JTYPE_BOOL;
-    new_val->value.as_bool = value;
+    struct jval *new = jval_from_double(value);
+    jobj_add_jval(self, name, new);
 }
 
-void jobj_add_string(struct jobj *self, const char *name, const char *value)
+void jobj_add_bool(struct jobj **self, const char *name, int value)
+{
+    struct jval *new = jval_from_bool(value);
+    jobj_add_jval(self, name, new);
+}
+
+void jobj_add_string(struct jobj **self, const char *name, const char *value)
 {
     if (!value) {
         jobj_add_null(self, name);
         return;
     }
-    struct jval *new_val = jobj_new_entry(self, name);
-    new_val->type = JTYPE_STRING;
-    new_val->value.as_string = strdup(value);
+    struct jval *new = jval_from_string(value);
+    jobj_add_jval(self, name, new);
 }
 
-void jobj_add_jarr(struct jobj *self, const char *name, struct jarr *value)
+void jobj_add_jarr(struct jobj **self, const char *name, struct jarr *value)
 {
     if (!value) {
         jobj_add_null(self, name);
         return;
     }
-    struct jval *new_val = jobj_new_entry(self, name);
-    new_val->type = JTYPE_ARRAY;
-    new_val->value.as_jarr = value;
+    struct jval *new = jval_from_jarr(value);
+    jobj_add_jval(self, name, new);
 }
 
-void jobj_add_jobj(struct jobj *self, const char *name, struct jobj *value)
+void jobj_add_jobj(struct jobj **self, const char *name, struct jobj *value)
 {
     if (!value) {
         jobj_add_null(self, name);
         return;
     }
-    struct jval *new_val = jobj_new_entry(self, name);
-    new_val->type = JTYPE_OBJECT;
-    new_val->value.as_jobj = value;
+    struct jval *new = jval_from_jobj(value);
+    jobj_add_jval(self, name, new);
 }
 
-void jobj_add_null(struct jobj *self, const char *name)
+void jobj_add_null(struct jobj **self, const char *name)
 {
-    struct jval *new_val = jobj_new_entry(self, name);
-    new_val->type = JTYPE_NULL;
-    new_val->value.as_ptr= NULL;
+    struct jval *new = jval_new_null();
+    jobj_add_jval(self, name, new);
 }

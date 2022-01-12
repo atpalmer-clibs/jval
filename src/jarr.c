@@ -1,84 +1,63 @@
 #include "jtypes/jtypes.h"
 
 
-static struct jval *jarr_new_val(struct jarr *self)
-{
-    struct jval *new_val = jcollection_new_entry((struct jcollection *)self, sizeof *self->entries);
-    return new_val;
-}
-
-struct jarr *jarr_new(void)
-{
-    struct jarr *new = (struct jarr *)jcollection_new(sizeof *new->entries);
-    return new;
-}
-
 void jarr_destroy(const struct jarr *self)
 {
-    for (size_t i = 0; i < self->count; ++i) {
-        jval_cleanup(&self->entries[i]);
-    }
-    free((void *)self->entries);
+    for (size_t i = 0; i < self->count; ++i)
+        jval_destroy(self->entries[i]);
     free((void *)self);
 }
 
-void jarr_add_long(struct jarr *self, long value)
+void jarr_add_long(struct jarr **self, long value)
 {
-    struct jval *new_val = jarr_new_val(self);
-    new_val->type = JTYPE_INTEGER;
-    new_val->value.as_long = value;
+    struct jval *jval = jval_from_long(value);
+    jcollection_add_entry((struct jcollection **)self, jval);
 }
 
-void jarr_add_double(struct jarr *self, double value)
+void jarr_add_double(struct jarr **self, double value)
 {
-    struct jval *new_val = jarr_new_val(self);
-    new_val->type = JTYPE_NUMBER;
-    new_val->value.as_double = value;
+    struct jval *jval = jval_from_double(value);
+    jcollection_add_entry((struct jcollection **)self, jval);
 }
 
-void jarr_add_bool(struct jarr *self, int value)
+void jarr_add_bool(struct jarr **self, int value)
 {
-    struct jval *new_val = jarr_new_val(self);
-    new_val->type = JTYPE_BOOL;
-    new_val->value.as_bool = value;
+    struct jval *jval = jval_from_bool(value);
+    jcollection_add_entry((struct jcollection **)self, jval);
 }
 
-void jarr_add_string(struct jarr *self, const char *value)
+void jarr_add_string(struct jarr **self, const char *value)
 {
     if (!value) {
         jarr_add_null(self);
         return;
     }
-    struct jval *new_val = jarr_new_val(self);
-    new_val->type = JTYPE_STRING;
-    new_val->value.as_string = strdup(value);
+    struct jval *jval = jval_from_string(value);
+    jcollection_add_entry((struct jcollection **)self, jval);
 }
 
-void jarr_add_jarr(struct jarr *self, struct jarr *value)
+void jarr_add_jarr(struct jarr **self, struct jarr *value)
 {
     if (!value) {
         jarr_add_null(self);
         return;
     }
-    struct jval *new_val = jarr_new_val(self);
-    new_val->type = JTYPE_ARRAY;
-    new_val->value.as_jarr = value;
+    struct jval *jval = jval_from_jarr(value);
+    jcollection_add_entry((struct jcollection **)self, jval);
 }
 
-void jarr_add_jobj(struct jarr *self, struct jobj *value)
+void jarr_add_jobj(struct jarr **self, struct jobj *value)
 {
     if (!value) {
         jarr_add_null(self);
         return;
     }
-    struct jval *new_val = jarr_new_val(self);
-    new_val->type = JTYPE_OBJECT;
-    new_val->value.as_jobj = value;
+    struct jval *jval = jval_from_jobj(value);
+    jcollection_add_entry((struct jcollection **)self, jval);
 }
 
-void jarr_add_null(struct jarr *self)
+void jarr_add_null(struct jarr **self)
 {
-    struct jval *new_val = jarr_new_val(self);
-    new_val->type = JTYPE_NULL;
-    new_val->value.as_ptr = NULL;
+    struct jval *jval = jval_new_null();
+    jcollection_add_entry((struct jcollection **)self, jval);
 }
