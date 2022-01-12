@@ -16,16 +16,6 @@ static void jval_container_destroy(struct jval_container *self, entry_destroy_fu
     free(self);
 }
 
-static void jval_object_container_destroy(struct jval_container *self)
-{
-    jval_container_destroy(self, (entry_destroy_func)jval_object_entry_destroy);
-}
-
-static void jval_array_container_destroy(struct jval_container *self)
-{
-    jval_container_destroy(self, (entry_destroy_func)jval_destroy);
-}
-
 static struct jval_container *jval_container_new(void)
 {
     static const size_t INITIAL_CAPACITY = 1;
@@ -137,10 +127,10 @@ void jval_destroy(struct jval *self)
 {
     switch (self->type) {
     case JTYPE_OBJECT:
-        jval_object_container_destroy(self->value.as_container);
+        jval_container_destroy(self->value.as_container, (entry_destroy_func)jval_object_entry_destroy);
         break;
     case JTYPE_ARRAY:
-        jval_array_container_destroy(self->value.as_container);
+        jval_container_destroy(self->value.as_container, (entry_destroy_func)jval_destroy);
         break;
     case JTYPE_STRING:
         free((void *)self->value.as_string);
