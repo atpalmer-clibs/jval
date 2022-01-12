@@ -1,13 +1,14 @@
+BIN=bin
 SOURCES=src/*.c
 CC=gcc
 CFLAGS=-Wall -Wextra -pedantic -I./include/
-ALL=main
 
-all: $(ALL)
+samples: sample1
 
-%: $(SOURCES) %.c
-	$(CC) $(CFLAGS) -o $@ $?
+sample%: $(SOURCES) samples/sample%.c
+	mkdir -p $(BIN)
+	$(CC) $(CFLAGS) -o $(BIN)/$@ $?
 
 .PHONY: clean
 clean:
-	rm $(ALL)
+	rm -r $(BIN)
