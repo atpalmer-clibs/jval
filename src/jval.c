@@ -3,20 +3,20 @@
 
 typedef void (*entry_destroy_func)(void *);
 
-static void jval_object_entry_destroy(struct jval_object_entry *entry)
+static void _entry_destroy(struct jval_object_entry *entry)
 {
     free((void *)entry->name);
     jval_destroy(entry->value);
 }
 
-static void jval_container_destroy(struct jval_container *self, entry_destroy_func entry_destroy)
+static void _container_free(struct jval_container *container, entry_destroy_func entry_destroy)
 {
-    for (size_t i = 0; i < self->count; ++i)
-        entry_destroy(self->entries[i]);
-    free(self);
+    for (size_t i = 0; i < container->count; ++i)
+        entry_destroy(container->entries[i]);
+    free(container);
 }
 
-static struct jval_container *jval_container_new(void)
+static struct jval_container *_container_alloc(void)
 {
     static const size_t INITIAL_CAPACITY = 1;
     struct jval_container *new = malloc(sizeof *new + (INITIAL_CAPACITY * sizeof new->entries[0]));
@@ -25,16 +25,16 @@ static struct jval_container *jval_container_new(void)
     return new;
 }
 
-static void jval_container_append(struct jval_container **self, void *entry)
+static void _container_append(struct jval_container **c, void *entry)
 {
-    while ((*self)->count >= (*self)->capacity) {
-        size_t new_cap = (*self)->capacity * 2;
-        *self = realloc(*self, sizeof **self + (new_cap * sizeof((*self)->entries[0])));
-        (*self)->capacity = new_cap;
+    while ((*c)->count >= (*c)->capacity) {
+        size_t new_cap = (*c)->capacity * 2;
+        *c = realloc(*c, sizeof **c + (new_cap * sizeof((*c)->entries[0])));
+        (*c)->capacity = new_cap;
     }
 
-    (*self)->entries[(*self)->count] = entry;
-    ++(*self)->count;
+    (*c)->entries[(*c)->count] = entry;
+    ++(*c)->count;
 }
 
 struct jval *jval_ensure_type(struct jval *self, enum jtype type)
@@ -54,7 +54,7 @@ static struct jval *jval_or_jnull(struct jval *self)
 void jval_append(struct jval *self, struct jval *value)
 {
     jval_ensure_type(self, JTYPE_ARRAY);
-    jval_container_append(&self->value.as_container, jval_or_jnull(value));
+    _container_append(&self->value.as_container, jval_or_jnull(value));
 }
 
 void jval_set(struct jval *self, const char *name, struct jval *value)
@@ -65,7 +65,7 @@ void jval_set(struct jval *self, const char *name, struct jval *value)
     new->name = strdup(name);
     new->value = jval_or_jnull(value);
 
-    jval_container_append(&self->value.as_container, new);
+    _container_append(&self->value.as_container, new);
 }
 
 struct jval *jval_from_long(long value)
@@ -104,7 +104,7 @@ struct jval *jval_new_array(void)
 {
     struct jval *new = malloc(sizeof *new);
     new->type = JTYPE_ARRAY;
-    new->value.as_container = jval_container_new();
+    new->value.as_container = _container_alloc();
     return new;
 }
 
@@ -112,7 +112,7 @@ struct jval *jval_new_object(void)
 {
     struct jval *new = malloc(sizeof *new);
     new->type = JTYPE_OBJECT;
-    new->value.as_container = jval_container_new();
+    new->value.as_container = _container_alloc();
     return new;
 }
 
@@ -127,10 +127,10 @@ void jval_destroy(struct jval *self)
 {
     switch (self->type) {
     case JTYPE_OBJECT:
-        jval_container_destroy(self->value.as_container, (entry_destroy_func)jval_object_entry_destroy);
+        _container_free(self->value.as_container, (entry_destroy_func)_entry_destroy);
         break;
     case JTYPE_ARRAY:
-        jval_container_destroy(self->value.as_container, (entry_destroy_func)jval_destroy);
+        _container_free(self->value.as_container, (entry_destroy_func)jval_destroy);
         break;
     case JTYPE_STRING:
         free((void *)self->value.as_string);
