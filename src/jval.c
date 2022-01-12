@@ -116,11 +116,13 @@ struct jval *jval_new_object(void)
     return new;
 }
 
+static struct jval jval_null = {
+    .type = JVAL_TP_NULL
+};
+
 struct jval *jval_new_null(void)
 {
-    struct jval *new = calloc(sizeof *new, 1);
-    new->type = JVAL_TP_NULL;
-    return new;
+    return &jval_null;
 }
 
 void jval_destroy(struct jval *self)
@@ -128,16 +130,21 @@ void jval_destroy(struct jval *self)
     switch (self->type) {
     case JVAL_TP_OBJECT:
         _container_free(self->value.as_container, (entry_destroy_func)_entry_destroy);
+        free(self);
         break;
     case JVAL_TP_ARRAY:
         _container_free(self->value.as_container, (entry_destroy_func)jval_destroy);
+        free(self);
         break;
     case JVAL_TP_STRING:
         free((void *)self->value.as_string);
+        free(self);
+        break;
+    case JVAL_TP_NULL:
+        /* do not free singleton */
         break;
     default:
+        free(self);
         break;
     };
-
-    free(self);
 }
