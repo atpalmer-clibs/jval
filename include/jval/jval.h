@@ -1,5 +1,5 @@
-#ifndef JTYPES_H
-#define JTYPES_H
+#ifndef JVAL_JVAL_H
+#define JVAL_JVAL_H
 
 #include <stdio.h>
 #include <stdlib.h>

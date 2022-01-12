@@ -1,8 +1,8 @@
-# jtypes
+# jval
 
 This is a C library for representing JSON data structures.
 
-`main.c` imports `jtypes.h` and creates a data structure similar to the following:
+`main.c` imports `jval/jval.h` and creates a data structure similar to the following:
 
 ```
     {

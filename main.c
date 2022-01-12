@@ -1,5 +1,5 @@
-#include "jtypes/jtypes.h"
-#include "jtypes/console.h"
+#include "jval/jval.h"
+#include "jval/console.h"
 
 
 int main(void)
