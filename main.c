@@ -4,50 +4,50 @@
 
 int main(void)
 {
-    struct jobj *nested_obj = jobj_new();
-    jobj_add_string(&nested_obj, "city", "Chicago");
-    jobj_add_string(&nested_obj, "state", "Illinois");
+    struct jval *nested_obj = jval_new_object();
+    jval_set(nested_obj, "city", jval_from_string("Chicago"));
+    jval_set(nested_obj, "state", jval_from_string("Illinois"));
 
-    struct jobj *obj = jobj_new();
+    struct jval *obj = jval_new_object();
 
-    jobj_add_double(&obj, "value", 4);
-    jobj_add_double(&obj, "value2", 5);
-    jobj_add_string(&obj, "name", "Andy");
-    jobj_add_long(&obj, "int-value", 6);
+    jval_set(obj, "value", jval_from_double(4));
+    jval_set(obj, "value2", jval_from_double(5));
+    jval_set(obj, "name", jval_from_string("Andy"));
+    jval_set(obj, "int-value", jval_from_long(6));
 
-    struct jarr *nested_arr = jarr_new();
-    jarr_add_string(&nested_arr, "1");
-    jarr_add_string(&nested_arr, "0");
-    jarr_add_string(&nested_arr, "4");
+    struct jval *nested_arr = jval_new_array();
+    jval_append(nested_arr, jval_from_string("1"));
+    jval_append(nested_arr, jval_from_string("0"));
+    jval_append(nested_arr, jval_from_string("4"));
 
-    struct jobj *arr_obj = jobj_new();
-    jobj_add_double(&arr_obj, "value", 105);
+    struct jval *arr_obj = jval_new_object();
+    jval_set(arr_obj, "value", jval_from_double(105));
 
-    struct jarr *bool_arr = jarr_new();
-    jarr_add_bool(&bool_arr, 1);
-    jarr_add_bool(&bool_arr, 0);
+    struct jval *bool_arr = jval_new_array();
+    jval_append(bool_arr, jval_from_bool(1));
+    jval_append(bool_arr, jval_from_bool(0));
 
-    struct jarr *arr = jarr_new();
-    jarr_add_long(&arr, 100);
-    jarr_add_double(&arr, 101);
-    jarr_add_string(&arr, "0102");
-    jarr_add_double(&arr, 103);
-    jarr_add_jarr(&arr, nested_arr);
-    jarr_add_jobj(&arr, arr_obj);
-    jarr_add_jarr(&arr, bool_arr);
-    jarr_add_null(&arr);
-    jarr_add_jobj(&arr, NULL);
+    struct jval *arr = jval_new_array();
+    jval_append(arr, jval_from_long(100));
+    jval_append(arr, jval_from_double(101));
+    jval_append(arr, jval_from_string("0102"));
+    jval_append(arr, jval_from_double(103));
+    jval_append(arr, nested_arr);
+    jval_append(arr, arr_obj);
+    jval_append(arr, bool_arr);
+    jval_append(arr, jval_new_null());
+    jval_append(arr, NULL);
 
-    jobj_add_jarr(&obj, "myArray", arr);
-    jobj_add_jobj(&obj, "location", nested_obj);
+    jval_set(obj, "myArray", arr);
+    jval_set(obj, "location", nested_obj);
 
-    jobj_add_bool(&obj, "true", 1);
-    jobj_add_bool(&obj, "false", 0);
+    jval_set(obj, "true", jval_from_bool(1));
+    jval_set(obj, "false", jval_from_bool(0));
 
-    jobj_add_jobj(&obj, "oneNull", NULL);
-    jobj_add_null(&obj, "twoNull");
+    jval_set(obj, "oneNull", NULL);
+    jval_set(obj, "twoNull", jval_new_null());
 
-    jobj_to_console(obj);
+    jval_to_console(obj);
 
-    jobj_destroy(obj);
+    jval_destroy(obj);
 }
