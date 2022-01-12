@@ -6,7 +6,7 @@
 #include <string.h>
 
 
-enum jtype {
+enum jval_type {
     JTYPE_INTEGER,
     JTYPE_NUMBER,
     JTYPE_STRING,
@@ -31,7 +31,7 @@ enum jtype {
  */
 
 struct jval {
-    enum jtype type;
+    enum jval_type type;
     union {
         struct jval_container *as_container;
         const char *as_string;
@@ -65,7 +65,7 @@ struct jval_container {
 /*
  * aborts on failure, returns self on success
  */
-struct jval *jval_ensure_type(struct jval *self, enum jtype type);
+struct jval *jval_ensure_type(struct jval *self, enum jval_type type);
 
 /*
  * append requires array, aborts on failure

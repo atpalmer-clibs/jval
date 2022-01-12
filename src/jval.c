@@ -37,7 +37,7 @@ static void _container_append(struct jval_container **c, void *entry)
     ++(*c)->count;
 }
 
-struct jval *jval_ensure_type(struct jval *self, enum jtype type)
+struct jval *jval_ensure_type(struct jval *self, enum jval_type type)
 {
     if (self->type != type)
         abort();
