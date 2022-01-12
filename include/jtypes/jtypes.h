@@ -93,13 +93,6 @@ void jobj_add_string(struct jobj **self, const char *name, const char *value);
 void jobj_add_jarr(struct jobj **self, const char *name, struct jarr *value);
 void jobj_add_jobj(struct jobj **self, const char *name, struct jobj *value);
 void jobj_add_null(struct jobj **self, const char *name);
-void jobj_add_long(struct jobj **self, const char *name, long value);
-void jobj_add_double(struct jobj **self, const char *name, double value);
-void jobj_add_bool(struct jobj **self, const char *name, int value);
-void jobj_add_string(struct jobj **self, const char *name, const char *value);
-void jobj_add_jarr(struct jobj **self, const char *name, struct jarr *value);
-void jobj_add_jobj(struct jobj **self, const char *name, struct jobj *value);
-void jobj_add_null(struct jobj **self, const char *name);
 
 
 /*** jarr ***/
