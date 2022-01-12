@@ -59,6 +59,11 @@ struct jval *jval_new_null(void)
 
 void jval_destroy(const struct jval *self)
 {
-    jval_cleanup(self);
+    if (self->type == JTYPE_OBJECT)
+        jobj_destroy(self->value.as_ptr);
+    if (self->type == JTYPE_ARRAY)
+        jarr_destroy(self->value.as_ptr);
+    if (self->type == JTYPE_STRING)
+        free(self->value.as_ptr);
     free((void *)self);
 }

@@ -47,11 +47,7 @@ struct jval *jval_from_string(const char *value);
 struct jval *jval_from_jarr(struct jarr *value);
 struct jval *jval_from_jobj(struct jobj *value);
 struct jval *jval_new_null(void);
-
 void jval_destroy(const struct jval *self);
-
-/* deprecated */
-void jval_cleanup(const struct jval *self);
 
 
 /*** jcollection ***/

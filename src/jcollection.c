@@ -21,13 +21,3 @@ void jcollection_add_entry(struct jcollection **self, void *entry)
     (*self)->entries[(*self)->count] = entry;
     ++(*self)->count;
 }
-
-void jval_cleanup(const struct jval *self)
-{
-    if (self->type == JTYPE_OBJECT)
-        jobj_destroy(self->value.as_ptr);
-    if (self->type == JTYPE_ARRAY)
-        jarr_destroy(self->value.as_ptr);
-    if (self->type == JTYPE_STRING)
-        free(self->value.as_ptr);
-}
