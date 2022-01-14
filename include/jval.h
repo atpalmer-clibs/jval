@@ -41,7 +41,6 @@ struct jval {
     } value;
 };
 
-
 /*
  * jval_container provides support for container types
  * (allocated on jval.value.as_container for arrays and objects)
@@ -61,24 +60,6 @@ struct jval_container {
     void *entries[];
 };
 
-
-/*
- * aborts on failure, returns self on success
- */
-struct jval *jval_ensure_type(struct jval *self, enum jval_type type);
-
-/*
- * append requires array, aborts on failure
- * array steals ownership of value
- */
-void jval_append(struct jval *self, struct jval *value);
-
-/*
- * set requires object, aborts on failure
- * object steals ownership of value
- */
-void jval_set(struct jval *self, const char *name, struct jval *value);
-
 /*
  * create jvals of any type
  * - c long -> JVAL_TP_INTEGER
@@ -97,15 +78,32 @@ struct jval *jval_new_array(void);
 struct jval *jval_new_object(void);
 struct jval *jval_new_null(void);
 
+/*
+ * destroy any jval recursively
+ */
+void jval_destroy(struct jval *self);
+
 /* singletons */
 extern struct jval jval_true;
 extern struct jval jval_false;
 extern struct jval jval_null;
 
 /*
- * destroy any jval recursively
+ * aborts on failure, returns self on success
  */
-void jval_destroy(struct jval *self);
+struct jval *jval_ensure_type(struct jval *self, enum jval_type type);
+
+/*
+ * append requires array, aborts on failure
+ * array steals ownership of value
+ */
+void jval_append(struct jval *self, struct jval *value);
+
+/*
+ * set requires object, aborts on failure
+ * object steals ownership of value
+ */
+void jval_set(struct jval *self, const char *name, struct jval *value);
 
 /* output JSON to FILE * or char * */
 void jval_out(struct jval *self, FILE *out);
