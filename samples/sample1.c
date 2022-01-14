@@ -47,7 +47,9 @@ int main(void)
     jval_set(obj, "oneNull", NULL);
     jval_set(obj, "twoNull", &jval_null);
 
-    jval_to_console(obj);
+    char *json = jval_to_json(obj, NULL);
+    printf("%s\n", json);
+    free(json);
 
     jval_destroy(obj);
 }

@@ -2,6 +2,6 @@
 #define JVAL_CONSOLE_H
 
 void jval_out(struct jval *self, FILE *out);
-void jval_to_console(struct jval *self);
+char *jval_to_json(struct jval *self, size_t *jsonlen);
 
 #endif

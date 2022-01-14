@@ -63,7 +63,14 @@ void jval_out(struct jval *self, FILE *out)
     };
 }
 
-void jval_to_console(struct jval *self)
+char *jval_to_json(struct jval *self, size_t *jsonlen)
 {
-    jval_out(self, stdout);
+    char *json = NULL;
+    size_t len = 0;
+    FILE *out = open_memstream(&json, &len);
+    jval_out(self, out);
+    fclose(out);
+    if (jsonlen)
+        *jsonlen = len;
+    return json;
 }
