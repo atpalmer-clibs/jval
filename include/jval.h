@@ -100,10 +100,86 @@ struct jval *jval_ensure_type(struct jval *self, enum jval_type type);
 void jval_append(struct jval *self, struct jval *value);
 
 /*
+ * append convenience methods
+ */
+static inline void jval_append_long(struct jval *self, long value)
+{
+    jval_append(self, jval_from_long(value));
+}
+
+static inline void jval_append_double(struct jval *self, double value)
+{
+    jval_append(self, jval_from_double(value));
+}
+
+static inline void jval_append_bool(struct jval *self, int value)
+{
+    jval_append(self, jval_from_bool(value));
+}
+
+static inline void jval_append_string(struct jval *self, const char *value)
+{
+    jval_append(self, jval_from_string(value));
+}
+
+static inline void jval_append_true(struct jval *self)
+{
+    jval_append(self, &jval_true);
+}
+
+static inline void jval_append_false(struct jval *self)
+{
+    jval_append(self, &jval_false);
+}
+
+static inline void jval_append_null(struct jval *self)
+{
+    jval_append(self, &jval_null);
+}
+
+/*
  * set requires object, aborts on failure
  * object steals ownership of value
  */
 void jval_set(struct jval *self, const char *name, struct jval *value);
+
+/*
+ * set convenience methods
+ */
+static inline void jval_set_long(struct jval *self, const char *name, long value)
+{
+    jval_set(self, name, jval_from_long(value));
+}
+
+static inline void jval_set_double(struct jval *self, const char *name, double value)
+{
+    jval_set(self, name, jval_from_double(value));
+}
+
+static inline void jval_set_bool(struct jval *self, const char *name, int value)
+{
+    jval_set(self, name, jval_from_bool(value));
+}
+
+static inline void jval_set_string(struct jval *self, const char *name, const char *value)
+{
+    jval_set(self, name, jval_from_string(value));
+}
+
+static inline void jval_set_true(struct jval *self, const char *name)
+{
+    jval_set(self, name, &jval_true);
+}
+
+static inline void jval_set_false(struct jval *self, const char *name)
+{
+    jval_set(self, name, &jval_false);
+}
+
+static inline void jval_set_null(struct jval *self, const char *name)
+{
+    jval_set(self, name, &jval_null);
+}
 
 /* output JSON to FILE * or char * */
 void jval_out(struct jval *self, FILE *out);
