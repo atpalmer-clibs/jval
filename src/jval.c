@@ -1,5 +1,4 @@
-#include "jval/jval.h"
-
+#include <jval.h>
 
 struct jval jval_true = {
     .type = JVAL_TP_BOOL,

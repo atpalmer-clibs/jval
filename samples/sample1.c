@@ -1,5 +1,4 @@
-#include "jval/jval.h"
-
+#include <jval.h>
 
 int main(void)
 {

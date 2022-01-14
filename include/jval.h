@@ -1,5 +1,5 @@
-#ifndef JVAL_JVAL_H
-#define JVAL_JVAL_H
+#ifndef JVAL_H
+#define JVAL_H
 
 #include <stdio.h>
 #include <stdlib.h>
