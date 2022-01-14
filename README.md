@@ -1,8 +1,8 @@
 # jval
 
-This is a C library for representing JSON data structures.
+jval is a C library for representing JSON data.
 
-`samples/sample1.c` imports `jval/jval.h` and creates a data structure similar to the following:
+`samples/sample1.c` includes `jval.h`, creates a "jval" data structure in memory, and outputs JSON similar to the following:
 
 ```
     {
