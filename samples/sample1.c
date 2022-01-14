@@ -1,5 +1,4 @@
 #include "jval/jval.h"
-#include "jval/console.h"
 
 
 int main(void)

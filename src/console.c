@@ -1,5 +1,4 @@
 #include "jval/jval.h"
-#include "jval/console.h"
 
 
 static void _array_container_out(struct jval_container *self, FILE *out)
