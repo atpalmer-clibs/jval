@@ -13,6 +13,17 @@ char *lookup_state(const char *city)
     return NULL;
 }
 
+/*
+ * API to return a jval
+ */
+struct jval *gps(double lat, double lon)
+{
+    struct jval *result = jval_new_object();
+    jval_set_double(result, "latitude", lat);
+    jval_set_double(result, "longitude", lon);
+    return result;
+}
+
 int main(void)
 {
     char *nyc_state = lookup_state("New York");  /* new string on heap */
@@ -22,6 +33,7 @@ int main(void)
     jval_set_string(nyc, "city", "New York");
     jval_set_string(nyc, "state", nyc_state);
     jval_set_long(nyc, "population", 8804190);
+    jval_set(nyc, "gps", gps(40.7648, -73.9808));
 
     char *chicago_state = lookup_state("Chicago");  /* new string on heap */
 
@@ -29,6 +41,7 @@ int main(void)
     jval_set_string(chicago, "city", "Chicago");
     jval_set(chicago, "state", jval_from_string(chicago_state));  /* same thing as above */
     jval_set_long(chicago, "population", 2746388);
+    jval_set(chicago, "gps", gps(41.85003, -87.65005));
 
     /*
      * we need to clean up these strings at some point.
