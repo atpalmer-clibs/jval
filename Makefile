@@ -3,7 +3,7 @@ SOURCES=src/*.c
 CC=gcc
 CFLAGS=-Wall -Wextra -pedantic -I./include/
 
-samples: sample1
+samples: sample0 sample_hello
 
 sample%: $(SOURCES) samples/sample%.c
 	mkdir -p $(BIN)
