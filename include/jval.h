@@ -185,4 +185,10 @@ static inline void jval_set_null(struct jval *self, const char *name)
 void jval_out(struct jval *self, FILE *out);
 char *jval_to_json(struct jval *self, size_t *jsonlen);
 
+/*
+ * Parse methods
+ */
+struct jval *jval_parse_from_stream(FILE *stream);
+struct jval *jval_parse_from_string(const char *string);
+
 #endif
